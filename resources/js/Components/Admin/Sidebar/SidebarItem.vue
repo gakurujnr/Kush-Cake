@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useSidebarStore } from '@/stores/sidebar'
-import { useRoute } from 'vue-router'
+import { useSidebarStore } from '@/Stores/sidebar'
+// import { useRoute } from 'vue-router'
 import SidebarDropdown from './SidebarDropdown.vue'
-
+import {Link} from '@inertiajs/vue3'
 const sidebarStore = useSidebarStore()
 
 const props = defineProps(['item', 'index'])
-const currentPage = useRoute().name
+// const currentPage = useRoute().name
 
 interface SidebarItem {
   label: string
@@ -24,8 +24,8 @@ const handleItemClick = () => {
 
 <template>
   <li>
-    <router-link
-      :to="item.route"
+    <Link
+        :href="route(props.item.route)"
       class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
       @click.prevent="handleItemClick"
       :class="{
@@ -53,7 +53,7 @@ const handleItemClick = () => {
           fill=""
         />
       </svg>
-    </router-link>
+    </Link>
 
     <!-- Dropdown Menu Start -->
     <div class="translate transform overflow-hidden" v-show="sidebarStore.page === item.label">

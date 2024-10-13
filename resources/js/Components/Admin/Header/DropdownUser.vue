@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
-
+import {Link} from '@inertiajs/vue3'
 const target = ref(null)
 const dropdownOpen = ref(false)
 
@@ -12,9 +12,9 @@ onClickOutside(target, () => {
 
 <template>
   <div class="relative" ref="target">
-    <router-link
+    <a href="#"
       class="flex items-center gap-4"
-      to="#"
+
       @click.prevent="dropdownOpen = !dropdownOpen"
     >
       <span class="hidden text-right lg:block">
@@ -42,7 +42,7 @@ onClickOutside(target, () => {
           fill=""
         />
       </svg>
-    </router-link>
+    </a>
 
     <!-- Dropdown Start -->
     <div
@@ -51,7 +51,8 @@ onClickOutside(target, () => {
     >
       <ul class="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
         <li>
-          <router-link
+          <Link
+              :href="route('profile.show')"
             to="/profile"
             class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
           >
@@ -73,11 +74,10 @@ onClickOutside(target, () => {
               />
             </svg>
             My Profile
-          </router-link>
+          </Link>
         </li>
         <li>
-          <router-link
-            to="#"
+          <a href="#"
             class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
           >
             <svg
@@ -94,10 +94,10 @@ onClickOutside(target, () => {
               />
             </svg>
             My Contacts
-          </router-link>
+          </a>
         </li>
         <li>
-          <router-link
+          <Link :href="route('profile.show')"
             to="/pages/settings"
             class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
           >
@@ -119,7 +119,7 @@ onClickOutside(target, () => {
               />
             </svg>
             Account Settings
-          </router-link>
+          </Link>
         </li>
       </ul>
       <button
