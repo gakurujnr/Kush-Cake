@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,3 +27,4 @@ Route::middleware([
 
 Route::get('/admin/dashboard', [DashboardController::class,'dashboard']);
 //    ->middleware(['auth:sanctum', 'verified', 'admin']);
+Route::get('/admin/users', [UsersController::class,'index'])->name('admin.users');
