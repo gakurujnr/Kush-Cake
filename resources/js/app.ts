@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import './bootstrap';
 import '../css/app.css';
 import type { DefineComponent } from "vue";
@@ -6,7 +8,7 @@ import { createPinia } from 'pinia'
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-// @ts-expect-error
+// @ts-ignore
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
