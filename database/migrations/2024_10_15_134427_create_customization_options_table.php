@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('user_type')->default(1); // 0 = admin, 1 = customers
-            $table->string('phone')->nullable();
+        Schema::create('customization_options', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('user_type');
-            $table->dropColumn('phone');
-        });
+        Schema::dropIfExists('customization_options');
     }
 };
