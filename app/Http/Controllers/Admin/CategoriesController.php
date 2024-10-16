@@ -16,4 +16,14 @@ class CategoriesController extends Controller
             'categories' => $categories
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $category = new Category();
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->slug = \Str::slug($request->name);
+        $category->save();
+        return to_route('admin.categories');
+    }
 }

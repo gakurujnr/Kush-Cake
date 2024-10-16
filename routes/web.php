@@ -30,4 +30,5 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->
     Route::get('/dashboard', [DashboardController::class,'dashboard'])->name('dashboard');
     Route::get('/users', [UsersController::class,'index'])->name('users');
     Route::get('/categories', [CategoriesController::class,'index'])->name('categories');
+    Route::post('/store-categories', [CategoriesController::class,'store'])->name('categories.store');
 });
