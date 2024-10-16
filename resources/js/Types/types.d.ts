@@ -7,6 +7,11 @@
     user_type: number
     profile_photo_url: string | null
 }
+
+export interface Category extends Model{
+    name: string
+    description: string | null
+}
  interface Model{
     id: number
     created_at: string | Date,

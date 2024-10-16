@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Foundation\Application;
@@ -24,7 +25,9 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
-
-Route::get('/admin/dashboard', [DashboardController::class,'dashboard']);
-//    ->middleware(['auth:sanctum', 'verified', 'admin']);
-Route::get('/admin/users', [UsersController::class,'index'])->name('admin.users');
+//group the admin routes
+Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class,'dashboard'])->name('dashboard');
+    Route::get('/users', [UsersController::class,'index'])->name('users');
+    Route::get('/categories', [CategoriesController::class,'index'])->name('categories');
+});
