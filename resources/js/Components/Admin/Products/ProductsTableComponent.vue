@@ -3,6 +3,8 @@
 import type {Product} from "@/Types/types";
 import {useDateFormat} from "@vueuse/core";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+//define edit emit that passes the id of the product to the parent component
+const emit =defineEmits(['edit']);
 
 defineProps({
     products: {
@@ -10,6 +12,7 @@ defineProps({
         required: true
     }
 })
+
 </script>
 
 <template>
@@ -53,7 +56,7 @@ defineProps({
                         <p class="text-black dark:text-white">{{ product.stock }}</p>
                     </td>
                     <td class="p-2.5 text-center xl:p-5 space-x-2 space-y-2">
-                        <PrimaryButton class="bg-primary" type="button" @click="console.log('Edit')">Edit</PrimaryButton>
+                        <PrimaryButton class="bg-primary" type="button" @click="emit('edit',product.id)">Edit</PrimaryButton>
                         <PrimaryButton class="bg-primary" type="button" @click="console.log('Edit')">Add Image</PrimaryButton>
                     </td>
                 </tr>
