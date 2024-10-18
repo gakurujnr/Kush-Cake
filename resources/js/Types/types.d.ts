@@ -22,6 +22,12 @@ export interface Product extends Model{
     stock: number
     category: Category
     slug: string
+    image?: Image | null
+}
+export interface Image extends Model{
+    image_url: string
+    product_id: number
+    // product: Product
 }
  interface Model{
     id: number

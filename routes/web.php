@@ -40,5 +40,8 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->
 //        Route::get('/edit/{product}', [ProductController::class,'edit'])->name('edit');
         Route::put('/update/{product}', [ProductController::class,'update'])->name('update');
 //        Route::delete('/delete/{product}', [ProductController::class,'destroy'])->name('delete');
+
+        Route::post('/images/store', [ProductController::class,'storeImage'])->name('images.store');
+
     });
 });
