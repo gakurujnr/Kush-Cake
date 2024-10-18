@@ -30,6 +30,7 @@ defineProps({
                     <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Category</th>
                     <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Price</th>
                     <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Stock</th>
+                    <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Image</th>
                     <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Actions</th>
                 </tr>
                 </thead>
@@ -53,6 +54,9 @@ defineProps({
                     </td>
                     <td class="p-2.5 text-center xl:p-5">
                         <p class="text-black dark:text-white">{{ product.stock }}</p>
+                    </td>
+                    <td class="p-2.5 text-center xl:p-5">
+                        <img :src="product.image?.url" alt="product image" class="w-20 h-20" v-if="product.image"/>
                     </td>
                     <td class="p-2.5 text-center xl:p-5 space-x-2 space-y-2">
                         <PrimaryButton class="bg-primary" type="button" @click="emit('edit',product.id)">Edit</PrimaryButton>
