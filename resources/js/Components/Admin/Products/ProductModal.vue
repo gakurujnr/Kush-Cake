@@ -24,7 +24,7 @@ const props = defineProps({
         required: true,
     },
     product: {
-        type: Object as () => Product | null,
+        type: [Object as () => Product , null],
         default: null,
     },
 });
