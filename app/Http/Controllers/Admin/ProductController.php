@@ -30,4 +30,9 @@ class ProductController extends Controller
 
         return to_route('admin.products.index');
     }
+
+    public function update(Product $product)
+    {
+
+    }
 }

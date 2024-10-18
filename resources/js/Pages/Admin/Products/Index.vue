@@ -6,7 +6,7 @@ import {ref} from "vue";
 import type {Category,Product} from "@/Types/types";
 import ProductsTableComponent from "@/Components/Admin/Products/ProductsTableComponent.vue";
 
-defineProps({
+const props = defineProps({
     categories : {
         type: Array as ()=> Category[]
     },
@@ -15,8 +15,20 @@ defineProps({
     }
 })
 const showProductModal = ref(false)
+const product = ref<Product|null>(null)
 const closeModal = ()=>{
+    console.log('close clicked')
     showProductModal.value =false
+}
+const editProduct = (product_id:number)=>{
+    //find the product by id and set it to the product ref
+    product.value = props.products.find(product=>product.id === product_id)
+    console.log(product.value)
+    showProductModal.value = true
+}
+const newProduct = ()=>{
+    product.value = null
+    showProductModal.value = true
 }
 </script>
 
@@ -26,13 +38,13 @@ const closeModal = ()=>{
         <div class="flex justify-end">
                 <button
                 class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
-                @click="showProductModal = true"
+                @click="newProduct"
               >
                 New Product
               </button>
             </div>
-            <ProductsTableComponent :products="products"/>
-            <ProductModal :show="showProductModal" @close="closeModal" :categories="categories"/>
+            <ProductsTableComponent :products="products" @edit="editProduct"/>
+            <ProductModal :show="showProductModal" @close="closeModal" :categories="categories" :product="product"/>
     </div>
 </AdminLayout>
 </template>
