@@ -11,6 +11,7 @@
 export interface Category extends Model{
     name: string
     description: string | null
+    slug: string
 }
 
 export interface Product extends Model{
@@ -20,6 +21,7 @@ export interface Product extends Model{
     category_id: number
     stock: number
     category: Category
+    slug: string
 }
  interface Model{
     id: number

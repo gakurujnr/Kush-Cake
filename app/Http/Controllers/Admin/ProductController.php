@@ -13,7 +13,8 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Products/Index',[
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'products' => Product::all()->load('category')
         ]);
     }
 
