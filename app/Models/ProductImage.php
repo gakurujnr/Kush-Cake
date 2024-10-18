@@ -20,9 +20,6 @@ class ProductImage extends Model
     {
         // Assuming 'path' is the column storing the image path
        return Storage::url($this->image_url);
-//        return asset($this->image_url);
-//                return Storage::url('products/' . $this->image_url); // Return full URL for the image
-
-    }
+     }
 
 }

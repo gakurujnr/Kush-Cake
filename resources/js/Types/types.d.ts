@@ -27,6 +27,7 @@ export interface Product extends Model{
 export interface Image extends Model{
     image_url: string
     product_id: number
+    url?: string
     // product: Product
 }
  interface Model{
