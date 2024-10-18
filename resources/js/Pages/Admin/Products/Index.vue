@@ -3,11 +3,15 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import ProductModal from "@/Components/Admin/Products/ProductModal.vue";
 import {ref} from "vue";
-import type {Category} from "@/Types/types";
+import type {Category,Product} from "@/Types/types";
+import ProductsTableComponent from "@/Components/Admin/Products/ProductsTableComponent.vue";
 
 defineProps({
     categories : {
         type: Array as ()=> Category[]
+    },
+    products : {
+        type: Array as ()=> Product[]
     }
 })
 const showProductModal = ref(false)
@@ -27,7 +31,7 @@ const closeModal = ()=>{
                 New Product
               </button>
             </div>
-
+            <ProductsTableComponent :products="products"/>
             <ProductModal :show="showProductModal" @close="closeModal" :categories="categories"/>
     </div>
 </AdminLayout>
