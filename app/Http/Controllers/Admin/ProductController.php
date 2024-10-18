@@ -31,8 +31,15 @@ class ProductController extends Controller
         return to_route('admin.products.index');
     }
 
-    public function update(Product $product)
+    public function update(Product $product, Request $request)
     {
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
+        $product->stock = $request->stock;
+        $product->save();
 
+        return to_route('admin.products.index');
     }
 }
