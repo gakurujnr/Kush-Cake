@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\CustomizationController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Foundation\Application;
@@ -45,5 +46,11 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->
     Route::prefix('customization')->as('customization.')->group(function () {
         Route::get('/', [CustomizationController::class,'index'])->name('index');
         Route::post('/store', [CustomizationController::class,'store'])->name('store');
+    });
+
+    Route::prefix('orders')->as('orders.')->group(function () {
+        Route::get('/', [OrderController::class,'index'])->name('index');
+        Route::get('/{order}', [OrderController::class,'show'])->name('show');
+//        Route::put('/update/{order}', [OrderController::class,'update'])->name('update');
     });
 });
