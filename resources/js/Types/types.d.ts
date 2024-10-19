@@ -5,7 +5,8 @@
     email_verified_at: string | null
     two_factor_confirmed_at: string | null
     user_type: number
-    profile_photo_url: string | null
+    profile_photo_url: string | null,
+     addresses: Address[] | null
 }
 
 export interface Category extends Model{
@@ -34,6 +35,16 @@ export interface Image extends Model{
 export interface Customization extends Model{
     name: string
     description: string | null
+}
+
+export interface Address extends Model{
+    user_id: number
+    address_line_1: string| null
+    address_line_2: string| null
+    city: string| null
+    postal_code: string| null
+    country: string| null
+    state: string| null
 }
  interface Model{
     id: number

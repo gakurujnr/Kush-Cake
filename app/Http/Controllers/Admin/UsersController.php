@@ -11,7 +11,7 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::all()->load('addresses');
         return Inertia::render('Admin/Users/Index', [
             'users' => $users
         ]);

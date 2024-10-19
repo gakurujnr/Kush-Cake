@@ -2,6 +2,7 @@
 import {ref} from "vue";
 import type {User} from "@/Types/types";
 import {useDateFormat} from '@vueuse/core'
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 //get the users as a prop passed from parent
 defineProps({
     users: {
@@ -9,7 +10,7 @@ defineProps({
         required: true
     }
 })
-
+const emit = defineEmits(['openAddressesModal']);
 </script>
 
 <template>
@@ -46,7 +47,9 @@ defineProps({
             </span>
           </td>
           <td class="hidden p-2.5 text-center sm:table-cell xl:p-5">
-            <p class="text-black dark:text-white">{{ useDateFormat(user.created_at, 'Do MMMM YYYY HH:mm:ss') }}</p>
+              <PrimaryButton class="bg-primary" type="button" @click="emit('openAddressesModal',user.id)">Addresses</PrimaryButton>
+
+<!--            <p class="text-black dark:text-white">{{ useDateFormat(user.created_at, 'Do MMMM YYYY HH:mm:ss') }}</p>-->
           </td>
         </tr>
       </tbody>
