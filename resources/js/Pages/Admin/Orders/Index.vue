@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import OrdersTableComponent from "@/Components/Admin/Products/OrdersTableComponent.vue";
+import OrdersTableComponent from "@/Components/Admin/Orders/OrdersTableComponent.vue";
 </script>
 
 <template>
