@@ -30,6 +30,11 @@ export interface Image extends Model{
     url?: string
     // product: Product
 }
+
+export interface Customization extends Model{
+    name: string
+    description: string | null
+}
  interface Model{
     id: number
     created_at: string | Date,

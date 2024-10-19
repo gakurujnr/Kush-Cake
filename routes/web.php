@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\CustomizationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UsersController;
@@ -37,11 +38,12 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->
     Route::prefix('products')->as('products.')->prefix('products')->group(function () {
         Route::get('/', [ProductController::class,'index'])->name('index');
         Route::post('/store', [ProductController::class,'store'])->name('store');
-//        Route::get('/edit/{product}', [ProductController::class,'edit'])->name('edit');
         Route::put('/update/{product}', [ProductController::class,'update'])->name('update');
-//        Route::delete('/delete/{product}', [ProductController::class,'destroy'])->name('delete');
-
         Route::post('/images/store', [ProductController::class,'storeImage'])->name('images.store');
-
+    });
+    //group customization routes
+    Route::prefix('customization')->as('customization.')->group(function () {
+        Route::get('/', [CustomizationController::class,'index'])->name('index');
+        Route::post('/store', [CustomizationController::class,'store'])->name('store');
     });
 });
