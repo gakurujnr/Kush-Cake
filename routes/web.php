@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\CustomizationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Foundation\Application;
@@ -52,5 +53,10 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->
         Route::get('/', [OrderController::class,'index'])->name('index');
         Route::get('/{order}', [OrderController::class,'show'])->name('show');
 //        Route::put('/update/{order}', [OrderController::class,'update'])->name('update');
+    });
+
+    Route::prefix('payments')->as('payments.')->group(function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('index');
+        Route::post('/store', [PaymentController::class, 'store'])->name('store');
     });
 });
