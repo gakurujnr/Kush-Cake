@@ -3,7 +3,6 @@
 import type {Address} from "@/Types/types";
 import {ref, watch} from "vue";
 import DialogModal from "@/Components/DialogModal.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
     addresses: {
