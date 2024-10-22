@@ -28,7 +28,8 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->category_id = $request->category_id;
-        $product->slug = \Str::slug($request->name);
+        //generate random number for the product that starts with 250
+        $product->slug = '250'.rand(1000,99999);
         $product->save();
 
         return to_route('admin.products.index');

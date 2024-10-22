@@ -22,7 +22,7 @@ class CategoriesController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->slug = \Str::slug($request->name);
+        $category->slug = '251'.rand(1000,99999);
         $category->save();
         return to_route('admin.categories');
     }
