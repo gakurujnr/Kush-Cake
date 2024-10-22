@@ -1,5 +1,13 @@
 <script setup lang="ts">
 
+import type {Product} from "@/Types/types";
+
+defineProps({
+    products : {
+        type: Array as () => Product[],
+        required: true
+    }
+})
 </script>
 
 <template>
@@ -27,6 +35,7 @@
 
         <section id="home" class="home">
             <h1>Welcome to Online Kush Cakes</h1>
+            <br>
             <p>We're delighted to have you here! At Kush Cakes, we believe that every occasion deserves a touch of
                 sweetness. Our wide range of handcrafted cakes, designed with passion and baked to perfection, is sure
                 to bring joy to your celebrations.<br> Explore our gallery to find the perfect cake that matches your
@@ -56,20 +65,18 @@
                 <div class="inner-cake-row">
 
                     <!--Products 1 -->
-                    <div class="inner-cake-col cake-item" data-name="Cocoa Cake">
+                    <div class="inner-cake-col cake-item" data-name="Cocoa Cake" v-for="product in products">
                         <div class="cake-container">
-                            <img src="@/assets/images/fe/coco.jpg" alt="Cocoa Cake">
+                            <img :src="product.image?.url" :alt="product.name">
                             <div class="cake-reviews">
                                 <p>Customer Reviews</p>
                                 <ul>
-                                    <li>Absolutely Delicious! - Sarah</li>
-                                    <li>"Perfect for my birthday party." - John</li>
-                                    <li>"Best cake I've ever had." - Emily</li>
+                                    <li v-for="review in product.reviews.slice(0,4)">{{ review.comment }} - {{ review.user.name }}</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="cake-price">
-                            <p>$20</p>
+                            <p>${{product.price}}</p>
                         </div>
                         <div class="cake-star">
                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -78,472 +85,14 @@
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="false"></i>
                         </div>
-                        <h2>Cocoa Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>Chocolate cake is a cake flavored with melted chocolate & cocoa powder.</p>
+                        <h2>{{ product.name }}</h2>
+                        <h3>{{ product.category?.name }}</h3>
+                        <p>{{product.description}}</p>
                         <button class="add-to-cart" data-name="Cocoa Cake" data-price="20">Add to Cart</button>
                     </div>
 
 
-                    <!-- Add more products here 2 -->
-                    <div class="inner-cake-col cake-item" data-name="Orange Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/orange.jpg" alt="Orange Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>"Perfect for my birthday party." - Jonna</li>
-                                    <li>"Best cake I've ever had." - Emily</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$13</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Orange Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>Made with whipped egg whites which keeps the cake fluffy.</p>
-                        <button class="add-to-cart" data-name="Orange Cake" data-price="12">Add to Cart</button>
-                    </div>
 
-                    <!-- Next products 3-->
-                    <div class="inner-cake-col cake-item" data-name="Red Velvet">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/red_velvet.jpg" alt="Red Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$10</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Red Velvet Cake</h2>
-                        <h3>Taste the Orange Feeling</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Cocoa Cake" data-price="12">Add to Cart</button>
-                    </div>
-
-                    <!-- Next products 4 -->
-                    <div class="inner-cake-col cake-item" data-name="Lemon Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/lemon.jpg" alt="Lemon Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Absolutely Delicious! - Sarah</li>
-                                    <li>"Perfect for my birthday party." - John</li>
-                                    <li>"Best cake I've ever had." - Emily</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$20</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="false"></i>
-                        </div>
-                        <h2>Lemon Cake</h2>
-                        <h3> Sugar Free and Gluten Free Cake</h3>
-                        <p>Chocolate cake is a cake flavored with melted chocolate & cocoa powder.</p>
-                        <button class="add-to-cart" data-name="Lemon Cake" data-price="20">Add to Cart</button>
-                    </div>
-
-                    <!-- eND -->
-                    <!-- cake 5 -->
-                    <div class="inner-cake-col cake-item" data-name="Lemon Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/lemon.jpg" alt="Lemon Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$11</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Lemon Cake</h2>
-                        <h3>Have a Lemon Taste Cake Today</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Cocoa Cake" data-price="12">Add to Cart</button>
-                    </div>
-
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Chocolate Vanilla Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/chocolate_vanilla.jpg" alt="Chocolate Vanilla Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$15</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Chocolate Vanilla Cake</h2>
-                        <h3>Have A Chocolate Vanilla Cake Taste!</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Chocolate Vanilla Cake" data-price="12">Add to Cart
-                        </button>
-                    </div>
-
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Strawberry Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/im1.jpg" alt="Strawberry Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$12</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Creamy Strawberry Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Strawberry Cake" data-price="12">Add to Cart</button>
-                    </div>
-                    <div class="inner-cake-col cake-item" data-name="Strawberry Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/straw.jpg" alt="Strawberry Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$12</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Creamy Strawberry Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Strawberry Cake" data-price="12">Add to Cart</button>
-                    </div>
-
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Customized Cup Cakes">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/cupcake.jpg" alt="Cupcake Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$12</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Cupcake Cakes</h2>
-                        <h3>Enjoy Your Customized Cup Cakes</h3>
-                        <p>Place an Order Now and Taste The Feeling.</p>
-                        <button class="add-to-cart" data-name="Customized Cupcake  Cake" data-price="12">Add To Cart
-                        </button>
-                    </div>
-
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Double Chocolate Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/double_chocolate.jpg" alt="Double Chocolate Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$35</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Double Chocolate Cake</h2>
-                        <h3>We have Double Chocolate</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Double Chocolate Cake" data-price="35">Add To Cart
-                        </button>
-                    </div>
-
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Orange Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/imm1.jpg" alt="Cocoa Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$12</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Cocoa Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Cocoa Cake" data-price="12">Add to Cart</button>
-                    </div>
-
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Customized wedding Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/wedding.jpg" alt="Customized wedding Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my wedding party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$12</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>The Wedding Party Cake</h2>
-                        <h3>Its your Wedding Day!</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Customized wedding Cake" data-price="12">Add to Cart
-                        </button>
-                    </div>
-
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Orange Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/gluten.png" alt="Orange Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$12</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Cocoa Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Cocoa Cake" data-price="12">Add to Cart</button>
-                    </div>
-
-                    <div class="inner-cake-col cake-item" data-name="Baby Shower Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/babyshower.jpg" alt="Baby Shower Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$36</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Baby Shower Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Baby Shower Cake" data-price="36">Add to Cart</button>
-                    </div>
-
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Ring Ceremony Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/ringceremony.jpg" alt="Ring Ceremony Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$55</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Cocoa Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Ring Ceremony Cake" data-price="55">Add to Cart</button>
-                    </div>
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Rasp Berry Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/raspberry.jpg" alt="Rasp Berry Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$55</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Cocoa Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Rasp Berry Cake" data-price="55">Add to Cart</button>
-                    </div>
-
-                    <!-- Next products -->
-                    <div class="inner-cake-col cake-item" data-name="Ring Cake">
-                        <div class="cake-container">
-                            <img src="@/assets/images/fe/ringceremony.jpg" alt="Ring Cake">
-                            <div class="cake-reviews">
-                                <p>Customer Reviews</p>
-                                <ul>
-                                    <li>Delicious! - Peth</li>
-                                    <li>Perfect for my birthday party - Jonna</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="cake-price">
-                            <p>$55</p>
-                        </div>
-                        <div class="cake-star">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </div>
-                        <h2>Cocoa Cake</h2>
-                        <h3>Gluten Free – Sugar Free</h3>
-                        <p>More description of the above product will appear hear.</p>
-                        <button class="add-to-cart" data-name="Cocoa Cake" data-price="55">Add to Cart</button>
-                    </div>
                 </div>
             </div>
         </section>

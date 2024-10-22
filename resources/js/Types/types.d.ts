@@ -24,6 +24,7 @@ export interface Product extends Model{
     category: Category
     slug: string
     image?: Image | null
+    reviews?: Review[] | null
 }
 export interface Image extends Model{
     image_url: string
@@ -45,6 +46,15 @@ export interface Address extends Model{
     postal_code: string| null
     country: string| null
     state: string| null
+}
+
+export interface Review extends Model{
+    user_id: number
+    product_id: number
+    rating: number
+    comment: string
+    user?: User
+    product?: Product
 }
  interface Model{
     id: number
