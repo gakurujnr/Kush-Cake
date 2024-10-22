@@ -96,7 +96,7 @@ const submit = () => {
                     <InputLabel for="name" value="Name"/>
                     <TextInput
                         id="name"
-                        :model-value="form.name"
+                       v-model="form.name"
                         type="text"
                         class="mt-1 block w-full"
                         required
