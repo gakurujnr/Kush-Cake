@@ -18,7 +18,7 @@ Route::get('/', [HomePageController::class,'index'])->name('welcome');
 Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.'], function () {
     Route::post('/order', [\App\Http\Controllers\OrderController::class,'store'])->name('store');
     Route::get('/cart-count', [\App\Http\Controllers\OrderController::class,'orderItemCount'])->name('cart-count');
-//    Route::get('/order/{order}', [\App\Http\Controllers\OrderController::class,'show'])->name('show');
+    Route::get('/cart', [\App\Http\Controllers\OrderController::class,'showCart'])->name('cart');
 //    Route::put('/order/{order}', [\App\Http\Controllers\OrderController::class,'update'])->name('update');
 });
 
