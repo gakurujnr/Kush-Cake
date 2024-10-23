@@ -2,6 +2,8 @@
 
 import type {Product} from "@/Types/types";
 import { router, usePage } from '@inertiajs/vue3'
+import axios from "axios";
+import {onMounted, ref} from "vue";
 
 defineProps({
     products : {
@@ -9,15 +11,25 @@ defineProps({
         required: true
     }
 })
+const cart_count = ref(0)
 const addToCart = (productId: number) => {
    router.post('/order/order', {'product_id':productId}, {
-       onSuccess: (res) => {
-           console.log("erefefrerf")
-           console.log('ihvghih' + res)
+       preserveScroll: (page) => page.props.someProp === 'value',
+       onSuccess: () => {
+            getCartCount()
        }
    })
 }
-
+const getCartCount = () => {
+    axios.get('/order/cart-count').then((res) => {
+        cart_count.value = res.data.count
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+onMounted(() => {
+    getCartCount()
+})
 </script>
 
 <template>
@@ -38,7 +50,7 @@ const addToCart = (productId: number) => {
             <div id="menu"><i class="fas fa-bars"></i></div>
             <div class="cart-icon">
                 <img src="@/assets/images/fe/cart-logo.png" alt="Cart" onclick="openCartPage()">
-                <span class="item-count">0</span>
+                <span class="item-count">{{cart_count}}</span>
             </div>
 
         </header>
@@ -97,7 +109,7 @@ const addToCart = (productId: number) => {
                         <h2>{{ product.name }}</h2>
                         <h3>{{ product.category?.name }}</h3>
                         <p>{{product.description}}</p>
-                        <button class="add-to-cart" data-name="Cocoa Cake" data-price="20" @click="addToCart(product.id)">Add to Cart</button>
+                        <span class="add-to-cart" data-name="Cocoa Cake" data-price="20" @click="addToCart(product.id)">Add to Cart</span>
                     </div>
 
 

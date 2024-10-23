@@ -49,4 +49,15 @@ class OrderController extends Controller
            DB::commit();
         return to_route('welcome');
     }
+
+    public function orderItemCount()
+    {
+        //get current order then count the order items
+        $order = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
+        if ($order) {
+            return response()->json(['count' => $order->orderItems()->count()]);
+        }else{
+            return response()->json(['count' => 0]);
+        }
+    }
 }
