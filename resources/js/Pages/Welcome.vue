@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import type {Product} from "@/Types/types";
+import { router, usePage } from '@inertiajs/vue3'
 
 defineProps({
     products : {
@@ -8,10 +9,19 @@ defineProps({
         required: true
     }
 })
+const addToCart = (productId: number) => {
+   router.post('/order/order', {'product_id':productId}, {
+       onSuccess: (res) => {
+           console.log("erefefrerf")
+           console.log('ihvghih' + res)
+       }
+   })
+}
+
 </script>
 
 <template>
-    <div>
+    <div id="template_div">
         <header>
             <a href="#home" class="logo"><img src="@/assets/images/fe/logo.png" alt="Cake Shop Logo"></a>
             <nav class="navigate">
@@ -46,7 +56,6 @@ defineProps({
                                                                   style="cursor: pointer;"></i></button>
             </div>
         </section>
-
 
         <section class="product" id="product">
             <h1 class="title">Our Most Popular <span>Cakes</span></h1>
@@ -88,7 +97,7 @@ defineProps({
                         <h2>{{ product.name }}</h2>
                         <h3>{{ product.category?.name }}</h3>
                         <p>{{product.description}}</p>
-                        <button class="add-to-cart" data-name="Cocoa Cake" data-price="20">Add to Cart</button>
+                        <button class="add-to-cart" data-name="Cocoa Cake" data-price="20" @click="addToCart(product.id)">Add to Cart</button>
                     </div>
 
 
@@ -209,7 +218,9 @@ defineProps({
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Georama:wght@300;400;500&display=swap');
-
+#template_div{
+  scroll-behavior: smooth;
+}
 * {
     margin: 0;
     padding: 0;

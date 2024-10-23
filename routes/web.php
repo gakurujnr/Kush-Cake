@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [HomePageController::class,'index'])->name('welcome');
+//order routes
+Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.'], function () {
+    Route::post('/order', [\App\Http\Controllers\OrderController::class,'store'])->name('store');
+//    Route::get('/order', [OrderController::class,'index'])->name('index');
+//    Route::get('/order/{order}', [OrderController::class,'show'])->name('show');
+//    Route::put('/order/{order}', [OrderController::class,'update'])->name('update');
+});
 
 Route::middleware([
     'auth:sanctum',
