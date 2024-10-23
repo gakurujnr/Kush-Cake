@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -63,12 +64,30 @@ class OrderController extends Controller
 
     public function showCart()
     {
+        $order = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
         return Inertia::render('Cart/Index',[
-            'order' => Order::query()
+            'order' => $this->cartFullOrder(),
+            'cart_count' => $order ? $order->orderItems()->count() : 0
+        ]);
+    }
+    private function cartFullOrder()
+    {
+        return Order::query()
                 ->where('user_id', auth()->id())
                 ->where('status', 'pending')
                 ->first()
-                ->load('orderItems.product')
+                ->load(['orderItems.product.image','orderItems.product.category']);
+    }
+    public function updateOrderItem(OrderItem $orderItem, Request $request)
+    {
+        if ($request->has('quantity')){
+            $orderItem->quantity = $request->quantity;
+            $orderItem->save();
+        }
+
+        return response()->json([
+            'message' => 'Order item updated successfully',
+            'order'=> $this->cartFullOrder()
         ]);
     }
 }

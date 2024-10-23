@@ -167,47 +167,7 @@ onMounted(() => {
         </section>
 
 
-        <footer class="contact" id="contact">
-            <div class="cake-contact">
-                <div class="cake-contact-row">
-                    <div class="cake-contact-col">
-                        <img src="@/assets/images/fe/imm1.jpg" alt="Contact Image" class="images">
-                    </div>
-                    <div class="cake-contact-col">
-                        <h1>Contact Us</h1>
-                        <div class="social">
-                            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-                            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-                            <a href="https://www.pinterest.com" target="_blank"><i class="fab fa-pinterest"
-                                                                                   style="font-size: 24px; color: white;"></i></a>
-                            <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"
-                                                                                 style="font-size: 24px; color: white;"></i></a>
-                        </div>
-                        <p>Queen Street. Total number of Queen Streets in Australia, AUstralia 94158<br>123-456-7890</p>
-                        <p>We want to hear from you, write us:</p>
-                        <form id="formdetails" method="get">
-                            <input type="text" name="name" id="name" placeholder="Please Enter Your Name" required>
-                            <input type="email" name="email" id="email" placeholder="Please Enter Your E-mail" required>
-                            <input type="tel" name="mobile" id="mobile" placeholder="Please Enter Your Mobile No."
-                                   required>
-                            <textarea rows="8" cols="10" name="msg" placeholder="Give Your Opinion"></textarea>
-                            <button class="btn" style="cursor: pointer;">Submit <i class="fas fa-angle-right"
-                                                                                   style="cursor: pointer;"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <div class="map">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d59017.853243965386!2d72.74254603725106!3d22.405835692956025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1scake%20shop!5e0!3m2!1sen!2sin!4v1628243773361!5m2!1sen!2sin"
-                        width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-            <div class="copyright">
-                <a href="#home"><i class="fas fa-arrow-circle-up"></i></a>
-                <p>By&copy;Kush Cakes Vision 2025</p>
-            </div>
-        </footer>
+
     </ClientLayout>
 </template>
 
@@ -561,200 +521,6 @@ button:hover {
     }
 }
 
-/*---------------------contact us---------*/
-.contact {
-    padding-top: 8.5rem;
-}
-
-.cake-contact {
-    width: 100%;
-    background: whitesmoke;
-}
-
-.cake-contact-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.cake-contact-col {
-    margin: 2rem;
-    flex: 1 1 20rem;
-    text-align: center;
-}
-
-.cake-contact-col .images {
-    border: 1px solid #fff;
-}
-
-.cake-contact-col img {
-    width: 90%;
-    height: auto;
-    margin: 1.5rem;
-    padding: 1rem;
-    flex: 1 1 21rem;
-    border: 1px solid transparent;
-    border-radius: 1rem;
-}
-
-.cake-contact-col h1 {
-    padding: 1rem 0;
-    color: rgb(236, 35, 119);
-    letter-spacing: .1rem;
-}
-
-.cake-contact-col .social i {
-    padding: .8rem;
-    border: none;
-    border-radius: 1rem;
-    background: rgb(236, 35, 119);
-    color: #fff;
-    font-size: 1.5rem;
-}
-
-.cake-contact-col .social i:hover {
-    transition: 0.5s ease;
-    background: limegreen;
-    color: #fff;
-    cursor: pointer;
-}
-
-.cake-contact-col p {
-    padding: .5rem 0;
-    line-height: 1.5rem;
-    color: gray;
-}
-
-.cake-contact-col input, .cake-contact-col textarea {
-    width: 80%;
-    padding: 1rem;
-    margin-bottom: 1.2rem;
-    border: none;
-    border-bottom: .1rem dotted rgb(236, 35, 119);
-}
-
-.cake-contact-col textarea {
-    resize: none;
-}
-
-.copyright {
-    margin-top: 5rem;
-    padding: 3rem;
-    text-align: center;
-    background: gray;
-}
-
-.copyright i {
-    font-size: 2rem;
-    color: #fff;
-}
-
-.copyright p {
-    letter-spacing: .1rem;
-    font-size: 1.5rem;
-    color: #fff;
-}
-
-.cake-container {
-    position: relative;
-}
-
-.cake-img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.cake-reviews {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: left;
-    cursor: pointer;
-}
-
-.cake-container:hover .cake-reviews {
-    display: block;
-}
-
-/* Search form styles */
-.search-container {
-    display: inline-block;
-    margin-left: 20px;
-}
-
-.search-form {
-    display: flex;
-    align-items: center;
-}
-
-.search-input {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
-    width: 200px; /* Adjust width as needed */
-}
-
-.search-button {
-    background-color: #f5f5f5;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.search-button i {
-    color: #333;
-}
-
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-
-.add-to-cart {
-    cursor: pointer;
-    border-radius: 20px;
-}
-
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateX(8px);
-    }
-    40% {
-        transform: translateX(15px);
-    }
-    60% {
-        transform: translateX(20px);
-    }
-}
-
-
 /* Cart */
 
 #cart table {
@@ -830,6 +596,82 @@ button:hover {
 .cake-item:hover .cake-price {
     animation: blink 0.3s infinite;
     color: #ff4500;
+}
+
+.cake-container {
+    position: relative;
+}
+
+.cake-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.cake-reviews {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Search form styles */
+.search-container {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    width: 200px; /* Adjust width as needed */
+}
+
+.search-button {
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.search-button i {
+    color: #333;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.add-to-cart {
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.cake-container:hover .cake-reviews {
+    display: block;
 }
 
 
