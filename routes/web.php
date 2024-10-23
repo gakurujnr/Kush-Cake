@@ -23,6 +23,9 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.']
 //    Route::put('/order/{order}', [\App\Http\Controllers\OrderController::class,'update'])->name('update');
 });
 
+Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'address', 'as'=>'address.'], function () {
+    Route::post('/store', [\App\Http\Controllers\AddressController::class,'store'])->name('store');
+});
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

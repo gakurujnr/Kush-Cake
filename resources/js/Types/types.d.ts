@@ -40,8 +40,8 @@ export interface Customization extends Model{
 
 export interface Address extends Model{
     user_id: number
-    address_line_1: string| null
-    address_line_2: string| null
+    address_line1: string| null
+    address_line2: string| null
     city: string| null
     postal_code: string| null
     country: string| null
@@ -64,6 +64,8 @@ export interface Order extends Model{
     customization_value_id: number | null
     order_items: OrderItem[]
     user?: User
+    address_id: number |null
+    address?: Address | null
 }
 export interface OrderItem extends Model{
     order_id: number

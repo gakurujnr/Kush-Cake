@@ -67,7 +67,8 @@ class OrderController extends Controller
         $order = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
         return Inertia::render('Cart/Index',[
             'order' => $this->cartFullOrder(),
-            'cart_count' => $order ? $order->orderItems()->count() : 0
+            'cart_count' => $order ? $order->orderItems()->count() : 0,
+            'addresses'=>auth()->user()->addresses()->get()
         ]);
     }
     private function cartFullOrder()
