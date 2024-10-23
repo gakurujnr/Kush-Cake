@@ -91,4 +91,33 @@ class OrderController extends Controller
             'order'=> $this->cartFullOrder()
         ]);
     }
+
+    public function update(Order $order, Request $request)
+    {
+        if ($request->has('address_id')){
+            $order->address_id = $request->address_id;
+            $order->save();
+        }
+
+        return response()->json([
+            'message' => 'Order updated successfully',
+            'order'=> $this->cartFullOrder()
+        ]);
+    }
+
+    public function checkout(Order $order)
+    {
+        //compute the total amount of the order based on the order items quantity and price
+        $totalAmount = $order->orderItems->sum(function ($orderItem){
+            return $orderItem->quantity * $orderItem->price;
+        });
+        $order->update([
+            'total_amount' => $totalAmount,
+            'status' => 'processing'
+        ]);
+
+        return response()->json([
+            'message' => 'Order checked out successfully',
+        ]);
+    }
 }

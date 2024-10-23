@@ -59,7 +59,7 @@ export interface Review extends Model{
 
 export interface Order extends Model{
     user_id: number
-    status: string
+    status: 'pending'| 'processing'|'shipped'| 'delivered'| 'cancelled'
     total_amount: number
     customization_value_id: number | null
     order_items: OrderItem[]
