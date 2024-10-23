@@ -56,6 +56,23 @@ export interface Review extends Model{
     user?: User
     product?: Product
 }
+
+export interface Order extends Model{
+    user_id: number
+    status: string
+    total_amount: number
+    customization_value_id: number | null
+    order_items: OrderItem[]
+    user?: User
+}
+export interface OrderItem extends Model{
+    order_id: number
+    product_id: number
+    quantity: number
+    price:number
+    product?: Product
+    order?: Order
+}
  interface Model{
     id: number
     created_at: string | Date,

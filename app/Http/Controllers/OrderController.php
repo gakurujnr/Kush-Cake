@@ -50,7 +50,7 @@ class OrderController extends Controller
         return to_route('welcome');
     }
 
-    public function orderItemCount()
+    public function orderItemCount(): \Illuminate\Http\JsonResponse
     {
         //get current order then count the order items
         $order = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
@@ -59,5 +59,16 @@ class OrderController extends Controller
         }else{
             return response()->json(['count' => 0]);
         }
+    }
+
+    public function showCart()
+    {
+        return Inertia::render('Cart/Index',[
+            'order' => Order::query()
+                ->where('user_id', auth()->id())
+                ->where('status', 'pending')
+                ->first()
+                ->load('orderItems.product')
+        ]);
     }
 }
