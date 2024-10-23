@@ -2,7 +2,7 @@
 
 import {Link} from "@inertiajs/vue3";
 import axios from "axios";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 
 
 const props = defineProps({
@@ -18,9 +18,12 @@ const getCartCount = () => {
         console.log(err)
     })
 }
-if (props.cart_count === undefined) {
-    getCartCount()
-}
+watch(props.cart_count, (newVal) => {
+    if (newVal === undefined){
+        getCartCount()
+    }
+})
+
 </script>
 
 <template>
@@ -385,81 +388,6 @@ header #menu {
     color: #fff;
 }
 
-.cake-container {
-    position: relative;
-}
-
-.cake-img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.cake-reviews {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: left;
-    cursor: pointer;
-}
-
-.cake-container:hover .cake-reviews {
-    display: block;
-}
-
-/* Search form styles */
-.search-container {
-    display: inline-block;
-    margin-left: 20px;
-}
-
-.search-form {
-    display: flex;
-    align-items: center;
-}
-
-.search-input {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
-    width: 200px; /* Adjust width as needed */
-}
-
-.search-button {
-    background-color: #f5f5f5;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.search-button i {
-    color: #333;
-}
-
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-
-.add-to-cart {
-    cursor: pointer;
-    border-radius: 20px;
-}
 
 @keyframes rotate {
     0% {

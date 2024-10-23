@@ -19,6 +19,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.']
     Route::post('/order', [\App\Http\Controllers\OrderController::class,'store'])->name('store');
     Route::get('/cart-count', [\App\Http\Controllers\OrderController::class,'orderItemCount'])->name('cart-count');
     Route::get('/cart', [\App\Http\Controllers\OrderController::class,'showCart'])->name('cart');
+    Route::post('/update-order-item/{orderItem}', [\App\Http\Controllers\OrderController::class,'updateOrderItem'])->name('update_order_item');
 //    Route::put('/order/{order}', [\App\Http\Controllers\OrderController::class,'update'])->name('update');
 });
 
