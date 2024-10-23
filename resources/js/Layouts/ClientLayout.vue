@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {Link} from "@inertiajs/vue3";
+import {Link, router} from "@inertiajs/vue3";
 import axios from "axios";
 import {onMounted, ref, watch} from "vue";
 
@@ -11,19 +11,13 @@ const props = defineProps({
         required: false
     }
 })
-const getCartCount = () => {
-    axios.get('/order/cart-count').then((res) => {
-        props.cart_count = res.data.count
-    }).catch((err) => {
-        console.log(err)
-    })
-}
-watch(props.cart_count, (newVal) => {
-    if (newVal === undefined){
-        getCartCount()
+const openCart = () =>{
+    if (props.cart_count === 0 || !props.cart_count){
+        alert("Please Add in Item on cart to proceed")
+    }else{
+        router.visit('/order/cart')
     }
-})
-
+}
 </script>
 
 <template>
@@ -42,13 +36,11 @@ watch(props.cart_count, (newVal) => {
                         </ul>
                     </nav>
                     <div id="menu"><i class="fas fa-bars"></i></div>
-                    <Link :href="route('order.cart')">
-                    <div  class="cart-icon cursor-pointer">
+                    <div  class="cart-icon cursor-pointer" @click="openCart">
                         <img src="@/assets/images/fe/cart-logo.png" alt="Cart">
                         <span class="item-count">{{cart_count}}</span>
                     </div>
 
-                        </Link>
 
 
         </header>

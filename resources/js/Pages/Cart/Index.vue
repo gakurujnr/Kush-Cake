@@ -2,7 +2,7 @@
 import type {Address, Order} from "@/Types/types";
 import ClientLayout from "@/Layouts/ClientLayout.vue";
 import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon, PlusIcon } from '@heroicons/vue/20/solid'
-import {router} from "@inertiajs/vue3";
+import {router, useForm} from "@inertiajs/vue3";
 import axios from "axios";
 import {computed, ref} from "vue";
 import AddressModalComponent from "@/Components/Client/Address/AddressModalComponent.vue";
@@ -36,12 +36,31 @@ const updateQuantity =(orderItemId:number, quantity:number)=>{
             console.log(error)
         })
 }
+const updateOrderAddress = (orderId:number, addressId:number)=>{
+    axios.put(route('order.update', orderId), {address_id: addressId})
+        .then(response => {
+            props.order = response.data.order
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
 //create a computer variable
 const orderTotalCost = computed(()=>{
     return props.order.order_items.reduce((acc, orderItem)=>{
         return acc + orderItem.price * orderItem.quantity
     }, 0)
 })
+
+const checkoutOrder = ()=>{
+    axios.get(route('order.checkout', props.order.id))
+        .then(response => {
+            router.visit('/')
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
 </script>
 
 <template>
@@ -50,7 +69,7 @@ const orderTotalCost = computed(()=>{
         <div class="bg-white">
     <div class="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
       <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Shopping Cart</h1>
-      <form class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+      <div class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
         <section aria-labelledby="cart-heading" class="lg:col-span-7">
           <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
 
@@ -150,15 +169,16 @@ const orderTotalCost = computed(()=>{
                 <select id="addresses_select"
                         name="addresses_select"
                         v-model="order.address_id"
+                        @change="updateOrderAddress(order.id, $event.target.value)"
                         class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                   <option :value="address.id" v-for="address in addresses">{{address.address_line1}}, {{address.postal_code}}, {{address.city}}, {{address.state}}, {{address.country}}</option>
                 </select>
             </div>
           <div class="mt-6">
-            <button type="button" class="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Checkout</button>
+            <button type="button" @click="checkoutOrder" class="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Checkout</button>
           </div>
         </section>
-      </form>
+      </div>
         <AddressModalComponent :show="showAddressModal" @close="closeAddressModal"/>
     </div>
   </div>
