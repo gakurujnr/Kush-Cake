@@ -8,18 +8,19 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\HomePageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('welcome');
+Route::get('/', [HomePageController::class,'index'])->name('welcome');
+//order routes
+Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.'], function () {
+    Route::post('/order', [\App\Http\Controllers\OrderController::class,'store'])->name('store');
+    Route::get('/cart-count', [\App\Http\Controllers\OrderController::class,'orderItemCount'])->name('cart-count');
+//    Route::get('/order/{order}', [\App\Http\Controllers\OrderController::class,'show'])->name('show');
+//    Route::put('/order/{order}', [\App\Http\Controllers\OrderController::class,'update'])->name('update');
+});
 
 Route::middleware([
     'auth:sanctum',

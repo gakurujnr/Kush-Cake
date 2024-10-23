@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum('status',['pending', 'shipped', 'delivered', 'cancelled'])->default('pending');
             $table->float('total_amount');
-            $table->foreignId('customization_value_id')->constrained()->onDelete('cascade');
+            $table->foreignId('customization_value_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
