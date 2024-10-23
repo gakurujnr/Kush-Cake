@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type {Order} from "@/Types/types";
+import type {Address, Order} from "@/Types/types";
 import ClientLayout from "@/Layouts/ClientLayout.vue";
-import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/vue/20/solid'
+import { CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon, PlusIcon } from '@heroicons/vue/20/solid'
 import {router} from "@inertiajs/vue3";
 import axios from "axios";
-import {computed} from "vue";
+import {computed, ref} from "vue";
+import AddressModalComponent from "@/Components/Client/Address/AddressModalComponent.vue";
 
 const props = defineProps({
     order: {
@@ -14,8 +15,18 @@ const props = defineProps({
     cart_count : {
         type: Number,
         required: true
+    },
+    addresses: {
+        type: Array as () => Address[],
+        required: true
     }
 })
+const showAddressModal = ref(false);
+
+const closeAddressModal = () => {
+    showAddressModal.value = false;
+};
+
 const updateQuantity =(orderItemId:number, quantity:number)=>{
     axios.post(route('order.update_order_item', orderItemId), {quantity: quantity})
         .then(response => {
@@ -126,12 +137,29 @@ const orderTotalCost = computed(()=>{
               <dd class="text-base font-medium text-gray-900">${{ orderTotalCost }}</dd>
             </div>
           </dl>
-
+            <br>
+            <h2 id="address-heading" class="text-lg font-medium text-gray-900">Address information</h2>
+            <div class="flex flex-col mt-4 space-y-3">
+                <div class="flex flex-row justify-between">
+                    <label>Shipping Addresses</label>
+                    <button type="button" @click="showAddressModal = true" class="rounded-md bg-success text-white flex flex-row items-center p-2">
+                        <PlusIcon class="h-5 w-5" aria-hidden="true" />
+                        Add Address
+                    </button>
+                </div>
+                <select id="addresses_select"
+                        name="addresses_select"
+                        v-model="order.address_id"
+                        class="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+                  <option :value="address.id" v-for="address in addresses">{{address.address_line1}}, {{address.postal_code}}, {{address.city}}, {{address.state}}, {{address.country}}</option>
+                </select>
+            </div>
           <div class="mt-6">
             <button type="button" class="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Checkout</button>
           </div>
         </section>
       </form>
+        <AddressModalComponent :show="showAddressModal" @close="closeAddressModal"/>
     </div>
   </div>
     </ClientLayout>
