@@ -32,6 +32,10 @@ class PaymentController extends Controller
         $payment->payment_status = $request->payment_status;
         $payment->save();
 
+        $order = Order::query()->find($request->order_id);
+        $order->status = 'shipped';
+        $order->save();
+
         return to_route('admin.payments.index');
     }
 }
