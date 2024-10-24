@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -119,5 +120,35 @@ class OrderController extends Controller
         return response()->json([
             'message' => 'Order checked out successfully',
         ]);
+    }
+
+    public function index()
+    {
+        return Inertia::render('Order/Index',[
+            'orders' => Order::query()->where('user_id',auth()->user()->id)->get()->load(['user','address'])
+        ]);
+    }
+
+    public function show(Order $order)
+    {
+        return Inertia::render('Order/Show',[
+            'order' => $order->load(['orderItems.product.image','orderItems.product.category','orderItems.review','user','address', 'payments'])
+        ]);
+    }
+
+    public function rateOrderItem(Request $request)
+    {
+        //get the order item
+        $orderItem = OrderItem::query()->find($request->order_item_id)->load('product');
+
+        $review = new Review();
+        $review->rating = $request->rating;
+        $review->comment = $request->comment;
+        $review->order_item_id = $orderItem->id;
+        $review->product_id = $orderItem->product->id;
+        $review->user_id = auth()->id();
+        $review->save();
+
+        return to_route('order.show', $orderItem->order_id);
     }
 }
