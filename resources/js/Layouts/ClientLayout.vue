@@ -1,9 +1,11 @@
 <script setup lang="ts">
 
-import {Link, router} from "@inertiajs/vue3";
+import {Link, router, usePage} from "@inertiajs/vue3";
 import axios from "axios";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, ref, watch, computed} from "vue";
 
+const page = usePage();
+const user = computed(() => page.props.auth.user)
 
 const props = defineProps({
     cart_count: {
@@ -32,7 +34,7 @@ const openCart = () =>{
                             <li><a href="#testimonial">Testimonial</a></li>
                             <li><a href="#about">About Us</a></li>
                             <li><a href="#contact">Contact</a></li>
-
+                            <li v-if="user"><Link :href="route('order.index')">My Orders </Link></li>
                         </ul>
                     </nav>
                     <div id="menu"><i class="fas fa-bars"></i></div>

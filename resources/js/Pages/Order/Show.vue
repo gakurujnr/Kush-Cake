@@ -7,6 +7,7 @@ import {PlusIcon, XMarkIcon} from "@heroicons/vue/20/solid";
 import {computed} from "vue";
 import {useDateFormat} from "@vueuse/core";
 import {Link} from "@inertiajs/vue3";
+import ClientLayout from "@/Layouts/ClientLayout.vue";
 
 const props = defineProps({
     order: {
@@ -50,7 +51,7 @@ const paymentMethodVariant = (status: string) => {
 </script>
 
 <template>
-    <AdminLayout>
+    <ClientLayout>
         <div class="bg-white dark:bg-gray-800">
             <div class="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">Shopping
@@ -245,7 +246,7 @@ const paymentMethodVariant = (status: string) => {
             </div>
         </div>
 
-    </AdminLayout>
+    </ClientLayout>
 </template>
 
 <style scoped>
