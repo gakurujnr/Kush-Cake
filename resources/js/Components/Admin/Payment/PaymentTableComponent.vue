@@ -59,16 +59,22 @@ const paymentMethodVariant = (status: string) => {
                 <tbody>
                 <tr v-for="(payment, key) in payments" :key="key"
                     :class="`${key === payments.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'}`">
-                   <td class="p-2.5 text-center xl:p-5">
+                    <td class="p-2.5 text-center xl:p-5">
                         <Link :href="route('admin.orders.show',payment.order.id)"
                               class="bg-primary text-white text-xs px-3 py-1 rounded-md">{{ payment.order.id }}
                         </Link>
                     </td>
                     <td class="p-2.5 xl:p-5">
-                        <span :class="`px-2 py-1 rounded-full text-xs font-medium ${paymentMethodVariant(payment.payment_method)}`">{{payment.payment_method }}</span>
+                        <span
+                            :class="`px-2 py-1 rounded-full text-xs font-medium ${paymentMethodVariant(payment.payment_method)}`">{{
+                                payment.payment_method
+                            }}</span>
                     </td>
                     <td class="p-2.5 xl:p-5">
-                        <span :class="`px-2 py-1 rounded-full text-xs font-medium ${statusVariant(payment.payment_status)}`">{{payment.payment_status }}</span>
+                        <span
+                            :class="`px-2 py-1 rounded-full text-xs font-medium ${statusVariant(payment.payment_status)}`">{{
+                                payment.payment_status
+                            }}</span>
                     </td>
                     <td class="p-2.5 text-center xl:p-5">
                         <p class="text-black dark:text-white">{{ payment.payment_amount }}</p>
