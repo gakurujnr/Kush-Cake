@@ -23,4 +23,6 @@ class OrderController extends Controller
             'order' => $order->load(['orderItems.product.image','orderItems.product.category','user','address'])
         ]);
     }
+
+
 }
