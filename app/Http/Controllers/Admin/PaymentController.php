@@ -12,7 +12,9 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Payments/Index');
+        return Inertia::render('Admin/Payments/Index',[
+            'payments'=>Payment::all()->load('order')
+        ]);
     }
        public function orderJson(): \Illuminate\Http\JsonResponse
     {
