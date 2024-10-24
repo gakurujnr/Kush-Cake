@@ -6,6 +6,7 @@ import {ref} from "vue";
 import type {Category,Product} from "@/Types/types";
 import ProductsTableComponent from "@/Components/Admin/Products/ProductsTableComponent.vue";
 import ProductImage from "@/Components/Admin/Products/ProductImage.vue";
+import ProductReviewsModal from "@/Components/Admin/Products/ProductReviewsModal.vue";
 
 const props = defineProps({
     categories : {
@@ -17,12 +18,16 @@ const props = defineProps({
 })
 const showProductModal = ref(false)
 const showProductImageModal = ref(false)
+const showProductReviewsModal = ref(false)
 const product = ref<Product|null>(null)
 const closeModal = ()=>{
     showProductModal.value =false
 }
 const closeImageModal = ()=>{
     showProductImageModal.value = false
+}
+const closeReviewsModal = ()=>{
+    showProductReviewsModal.value = false
 }
 const editProduct = (product_id:number)=>{
     //find the product by id and set it to the product ref
@@ -37,6 +42,10 @@ const addImage = (product_id:number)=>{
     product.value = props.products.find(product=>product.id === product_id)
     showProductImageModal.value = true
 }
+const viewReviews = (product_id:number)=>{
+   product.value = props.products.find(product=>product.id === product_id)
+    showProductReviewsModal.value = true
+}
 </script>
 
 <template>
@@ -50,9 +59,10 @@ const addImage = (product_id:number)=>{
                 New Product
               </button>
             </div>
-            <ProductsTableComponent :products="products" @edit="editProduct" @addImage="addImage"/>
+            <ProductsTableComponent :products="products" @edit="editProduct" @addImage="addImage" @viewReviews="viewReviews"/>
             <ProductModal :show="showProductModal" @close="closeModal" :categories="categories" :product="product"/>
             <ProductImage  :show="showProductImageModal" @close="closeImageModal" :product="product"/>
+            <ProductReviewsModal :product="product" :show="showProductReviewsModal" @close="closeReviewsModal"/>
     </div>
 </AdminLayout>
 </template>

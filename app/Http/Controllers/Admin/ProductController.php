@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +14,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all()->load(['category','image']);
+        $products = Product::all()->load(['category','image','reviews']);
 
         return Inertia::render('Admin/Products/Index',[
             'categories' => Category::all(),
@@ -60,6 +61,12 @@ class ProductController extends Controller
         $image->product_id = $request->product_id;
         $image->save();
 
+        return to_route('admin.products.index');
+    }
+
+    public function deleteReview(Request $request)
+    {
+        Review::query()->find($request->review_id)->delete();
         return to_route('admin.products.index');
     }
 }
