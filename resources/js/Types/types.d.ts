@@ -66,6 +66,7 @@ export interface Order extends Model{
     user?: User
     address_id: number |null
     address?: Address | null
+    payments?: Payment[] | null
 }
 export interface OrderItem extends Model{
     order_id: number
