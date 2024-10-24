@@ -1,13 +1,15 @@
 <script setup lang="ts">
 
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import type {Order} from "@/Types/types";
+import type {Order, OrderItem} from "@/Types/types";
 import AddressModalComponent from "@/Components/Client/Address/AddressModalComponent.vue";
-import {PlusIcon, XMarkIcon} from "@heroicons/vue/20/solid";
-import {computed} from "vue";
+import {PlusIcon, StarIcon} from "@heroicons/vue/20/solid";
+import {computed, ref} from "vue";
 import {useDateFormat} from "@vueuse/core";
 import {Link} from "@inertiajs/vue3";
 import ClientLayout from "@/Layouts/ClientLayout.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import AddReviewModalComponent from "@/Components/Client/Review/AddReviewModalComponent.vue";
 
 const props = defineProps({
     order: {
@@ -20,6 +22,8 @@ const orderTotalCost = computed(() => {
         return acc + orderItem.price * orderItem.quantity
     }, 0)
 })
+
+const selectedOrderItem = ref<OrderItem>(null);
 const statusVariant = (status: string) => {
     switch (status) {
         case 'pending':
@@ -48,6 +52,15 @@ const paymentMethodVariant = (status: string) => {
             return 'bg-gray-200 text-white'
     }
 }
+const showReviewModal = ref(false);
+const closeModal = () => {
+    showReviewModal.value = false;
+    selectedOrderItem.value = null;
+};
+const openReviewModal = (orderItem: OrderItem) => {
+    selectedOrderItem.value = orderItem;
+    showReviewModal.value = true;
+};
 </script>
 
 <template>
@@ -87,13 +100,28 @@ const paymentMethodVariant = (status: string) => {
                                             </div>
                                             <p class="mt-1 text-sm font-medium text-gray-900 dark:text-white">
                                                 ${{ orderItem.price }}</p>
+                                            <div class="mt-4 flex items-center" v-if="orderItem.review">
+                                                <StarIcon v-for="rating in [ 0,1, 2, 3, 4, 5,6,7,8,9]" :key="rating"
+                                                          :class="[orderItem.review.rating > rating ? 'text-yellow-400' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']"
+                                                          aria-hidden="true"/>
+                                            </div>
+                                            <div class="prose prose-sm mt-4 max-w-none text-gray-500"
+                                                 v-if="orderItem.review" v-html="orderItem.review.comment"/>
                                         </div>
+
 
                                         <div class="mt-4 sm:mt-0 sm:pr-9">
                                             <dd class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 {{ orderItem.quantity }}
                                             </dd>
+                                            <div class="absolute right-0 top-0" v-if="!orderItem.review && (order.status ==='delivered' || order.status === 'cancelled')">
+                                                <button type="button" @click="openReviewModal(orderItem)"
+                                                        class="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                                    <PlusIcon class="-mr-0.5 h-5 w-5" aria-hidden="true"/>
+                                                    Add Review
+                                                </button>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -200,50 +228,57 @@ const paymentMethodVariant = (status: string) => {
                 </div>
 
                 <div class="bg-gray-100 dark:bg-gray-700 p-4 my-4 rounded-2xl">
-                      <h1 class="text-xl my-4 font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-xl">Payments</h1>
-                <div class="overflow-x-auto ">
-                    <table class="min-w-full table-auto">
-                        <thead>
-                        <tr class="bg-gray-200 dark:bg-meta-4">
-                            <th class="p-2.5 text-left text-sm font-medium uppercase xsm:text-base xl:p-5">Payment
-                                Method
-                            </th>
-                            <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Status</th>
-                            <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Amount</th>
-                            <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Payment
-                                Date
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(payment, key) in order.payments" :key="key"
-                            :class="`${key === order.payments.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'}`">
-                            <td class="p-2.5 xl:p-5">
+                    <h1 class="text-xl my-4 font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-xl">
+                        Payments</h1>
+                    <div class="overflow-x-auto ">
+                        <table class="min-w-full table-auto">
+                            <thead>
+                            <tr class="bg-gray-200 dark:bg-meta-4">
+                                <th class="p-2.5 text-left text-sm font-medium uppercase xsm:text-base xl:p-5">Payment
+                                    Method
+                                </th>
+                                <th class="p-2.5 text-left text-sm font-medium uppercase xsm:text-base xl:p-5">
+                                    Status
+                                </th>
+                                <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">
+                                    Amount
+                                </th>
+                                <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Payment
+                                    Date
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(payment, key) in order.payments" :key="key"
+                                :class="`${key === order.payments.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'}`">
+                                <td class="p-2.5 xl:p-5">
                         <span
                             :class="`px-2 py-1 rounded-full text-xs font-medium ${paymentMethodVariant(payment.payment_method)}`">{{
                                 payment.payment_method
                             }}</span>
-                            </td>
-                            <td class="p-2.5 xl:p-5">
+                                </td>
+                                <td class="p-2.5 xl:p-5">
                         <span
                             :class="`px-2 py-1 rounded-full text-xs font-medium ${statusVariant(payment.payment_status)}`">{{
                                 payment.payment_status
                             }}</span>
-                            </td>
-                            <td class="p-2.5 text-center xl:p-5">
-                                <p class="text-black dark:text-white">{{ payment.payment_amount }}</p>
-                            </td>
-                            <td class="p-2.5 text-center xl:p-5">
-                                <p class="text-black dark:text-white">
-                                    {{ useDateFormat(payment.payment_date, 'Do MMMM YYYY HH:mm:ss') }}</p>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                </td>
+                                <td class="p-2.5 text-center xl:p-5">
+                                    <p class="text-black dark:text-white">{{ payment.payment_amount }}</p>
+                                </td>
+                                <td class="p-2.5 text-center xl:p-5">
+                                    <p class="text-black dark:text-white">
+                                        {{ useDateFormat(payment.payment_date, 'Do MMMM YYYY HH:mm:ss') }}</p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
+
+            <AddReviewModalComponent :order_item="selectedOrderItem" :show="showReviewModal" @close="closeModal"/>
         </div>
 
     </ClientLayout>

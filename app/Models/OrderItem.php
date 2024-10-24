@@ -18,4 +18,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function Review()
+    {
+        return $this->hasOne(Review::class);
+    }
 }

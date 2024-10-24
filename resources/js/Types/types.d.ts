@@ -55,6 +55,8 @@ export interface Review extends Model{
     comment: string
     user?: User
     product?: Product
+    order_item_id: number | null
+    order_item?: OrderItem | null
 }
 
 export interface Order extends Model{
@@ -75,6 +77,7 @@ export interface OrderItem extends Model{
     price:number
     product?: Product
     order?: Order
+    review?: Review | null
 }
 
 export interface Payment extends Model

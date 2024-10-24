@@ -207,7 +207,7 @@ const paymentMethodVariant = (status: string) => {
                             <th class="p-2.5 text-left text-sm font-medium uppercase xsm:text-base xl:p-5">Payment
                                 Method
                             </th>
-                            <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Status</th>
+                            <th class="p-2.5 text-left text-sm font-medium uppercase xsm:text-base xl:p-5">Status</th>
                             <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Amount</th>
                             <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Payment
                                 Date
