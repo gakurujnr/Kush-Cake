@@ -75,6 +75,17 @@ export interface OrderItem extends Model{
     product?: Product
     order?: Order
 }
+
+export interface Payment extends Model
+{
+    order_id: number
+    payment_method: 'credit_card'| 'paypal'| 'mpesa'| 'bank_transfer'|'cash'
+    payment_status: 'pending'| 'completed'|'failed'
+    payment_amount: number
+    payment_date: string | Date | null
+    order?: Order
+
+}
  interface Model{
     id: number
     created_at: string | Date,

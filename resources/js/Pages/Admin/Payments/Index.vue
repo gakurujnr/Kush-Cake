@@ -4,6 +4,14 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import PaymentTableComponent from "@/Components/Admin/Payment/PaymentTableComponent.vue";
 import {ref} from "vue";
 import PaymentModalComponent from "@/Components/Admin/Payment/PaymentModalComponent.vue";
+import type {Payment} from "@/Types/types";
+
+defineProps({
+    payments: {
+        type: Array as () => Payment[],
+        required: true
+    }
+});
 const showPaymentModal = ref(false);
 const closeModal = () => {
   showPaymentModal.value = false;
@@ -11,7 +19,6 @@ const closeModal = () => {
 </script>
 
 <template>
-
     <AdminLayout>
          <div class="space-y-4">
             <div class="flex justify-end">
@@ -21,7 +28,7 @@ const closeModal = () => {
                     New Payment
                 </button>
             </div>
-             <PaymentTableComponent/>
+             <PaymentTableComponent :payments="payments"/>
              <PaymentModalComponent :show="showPaymentModal" @close="closeModal"/>
         </div>
     </AdminLayout>
