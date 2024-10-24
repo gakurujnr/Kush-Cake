@@ -57,14 +57,14 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->
     });
 
     Route::prefix('orders')->as('orders.')->group(function () {
-        Route::get('/', [OrderController::class,'index'])->name('index');
         Route::get('/{order}', [OrderController::class,'show'])->name('show');
-//        Route::put('/update/{order}', [OrderController::class,'update'])->name('update');
+        Route::get('/', [OrderController::class,'index'])->name('index');
     });
 
     Route::prefix('payments')->as('payments.')->group(function () {
         Route::get('/', [PaymentController::class, 'index'])->name('index');
         Route::post('/store', [PaymentController::class, 'store'])->name('store');
+        Route::get('/json', [PaymentController::class,'orderJson'])->name('json');
     });
 
     Route::prefix('reviews')->as('reviews.')->group(function () {
