@@ -61,6 +61,7 @@ defineProps({
                     <td class="p-2.5 text-center xl:p-5 space-x-2 space-y-2">
                         <PrimaryButton class="bg-primary" type="button" @click="emit('edit',product.id)">Edit</PrimaryButton>
                         <PrimaryButton class="bg-primary" type="button" @click="emit('addImage',product.id)">Add Image</PrimaryButton>
+                        <PrimaryButton class="bg-primary" type="button" @click="">Reviews</PrimaryButton>
                     </td>
                 </tr>
                 </tbody>

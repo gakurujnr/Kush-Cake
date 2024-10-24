@@ -124,15 +124,20 @@ class OrderController extends Controller
 
     public function index()
     {
+        $cartOrder = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
+
         return Inertia::render('Order/Index',[
-            'orders' => Order::query()->where('user_id',auth()->user()->id)->get()->load(['user','address'])
+            'orders' => Order::query()->where('user_id',auth()->user()->id)->get()->load(['user','address']),
+            'cart_count' => $cartOrder ? $cartOrder->orderItems()->count() : 0
         ]);
     }
 
     public function show(Order $order)
     {
+        $cartOrder = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
         return Inertia::render('Order/Show',[
-            'order' => $order->load(['orderItems.product.image','orderItems.product.category','orderItems.review','user','address', 'payments'])
+            'order' => $order->load(['orderItems.product.image','orderItems.product.category','orderItems.review','user','address', 'payments']),
+            'cart_count' => $cartOrder ? $cartOrder->orderItems()->count() : 0,
         ]);
     }
 

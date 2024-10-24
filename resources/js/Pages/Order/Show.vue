@@ -15,7 +15,11 @@ const props = defineProps({
     order: {
         type: Object as () => Order,
         required: true
-    }
+    },
+     cart_count: {
+        type: Number,
+        required: true
+    },
 })
 const orderTotalCost = computed(() => {
     return props.order.order_items.reduce((acc, orderItem) => {
@@ -64,7 +68,7 @@ const openReviewModal = (orderItem: OrderItem) => {
 </script>
 
 <template>
-    <ClientLayout>
+    <ClientLayout :cart_count="cart_count">
         <div class="bg-white dark:bg-gray-800">
             <div class="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
                 <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">Shopping
