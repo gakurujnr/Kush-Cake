@@ -5,6 +5,7 @@ import type {Order} from "@/Types/types";
 import AddressModalComponent from "@/Components/Client/Address/AddressModalComponent.vue";
 import {PlusIcon, XMarkIcon} from "@heroicons/vue/20/solid";
 import {computed} from "vue";
+import {useDateFormat} from "@vueuse/core";
 const props = defineProps({
     order:{
         type: Object as () => Order,
@@ -58,16 +59,35 @@ const orderTotalCost = computed(() => {
 
                                         </div>
                                     </div>
-
-
                                 </div>
                             </li>
                         </ul>
                     </section>
+                    <div class=" lg:col-span-5 space-y-4">
+                          <!-- User summary -->
+                    <section aria-labelledby="summary-heading"
+                             class="mt-16 rounded-lg px-4 py-6 sm:p-6 lg:mt-0 lg:p-8 bg-gray-50  dark:bg-gray-700">
+                        <h2 id="address-heading" class="text-lg font-medium text-gray-900 dark:text-white">User information</h2>
+                        <dl class="mt-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">Name</dt>
+                                <dd class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ order?.user.name }}</dd>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">Email</dt>
+                                <dd class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ order.user.email }}</dd>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">Joining Date</dt>
+                                <dd class="text-sm font-medium text-gray-900 dark:text-gray-100">{{  useDateFormat(order.user.created_at,'Do MMMM YYYY HH:mm:ss')}}</dd>
+                            </div>
 
+                        </dl>
+
+                    </section>
                     <!-- Order summary -->
                     <section aria-labelledby="summary-heading"
-                             class="mt-16 rounded-lg px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 bg-gray-50  dark:bg-gray-700">
+                             class="mt-16 rounded-lg px-4 py-6 sm:p-6 lg:mt-0 lg:p-8 bg-gray-50  dark:bg-gray-700">
                         <h2 id="summary-heading" class="text-lg font-medium text-gray-900 dark:text-white">Order summary</h2>
 
                         <dl class="mt-6 space-y-4">
@@ -111,6 +131,8 @@ const orderTotalCost = computed(() => {
                         </dl>
 
                     </section>
+                    </div>
+
                 </div>
             </div>
         </div>
