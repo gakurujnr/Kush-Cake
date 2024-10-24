@@ -69,9 +69,4 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->
         Route::post('/store', [PaymentController::class, 'store'])->name('store');
         Route::get('/json', [PaymentController::class,'orderJson'])->name('json');
     });
-
-    Route::prefix('reviews')->as('reviews.')->group(function () {
-        Route::get('/', [ReviewController::class, 'index'])->name('index');
-        Route::post('/store', [ReviewController::class, 'store'])->name('store');
-    });
 });

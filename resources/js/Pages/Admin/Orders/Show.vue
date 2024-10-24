@@ -3,7 +3,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import type {Order} from "@/Types/types";
 import AddressModalComponent from "@/Components/Client/Address/AddressModalComponent.vue";
-import {PlusIcon, XMarkIcon} from "@heroicons/vue/20/solid";
+import {PlusIcon, StarIcon, XMarkIcon} from "@heroicons/vue/20/solid";
 import {computed} from "vue";
 import {useDateFormat} from "@vueuse/core";
 import {Link} from "@inertiajs/vue3";
@@ -86,6 +86,13 @@ const paymentMethodVariant = (status: string) => {
                                             </div>
                                             <p class="mt-1 text-sm font-medium text-gray-900 dark:text-white">
                                                 ${{ orderItem.price }}</p>
+                                            <div class="mt-4 flex items-center" v-if="orderItem.review">
+                                                <StarIcon v-for="rating in [ 0,1, 2, 3, 4, 5,6,7,8,9]" :key="rating"
+                                                          :class="[orderItem.review.rating > rating ? 'text-yellow-400' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']"
+                                                          aria-hidden="true"/>
+                                            </div>
+                                            <div class="prose prose-sm mt-4 max-w-none text-gray-500"
+                                                 v-if="orderItem.review" v-html="orderItem.review.comment"/>
                                         </div>
 
                                         <div class="mt-4 sm:mt-0 sm:pr-9">

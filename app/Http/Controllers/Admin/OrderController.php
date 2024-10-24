@@ -20,7 +20,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return Inertia::render('Admin/Orders/Show',[
-            'order' => $order->load(['orderItems.product.image','orderItems.product.category','user','address', 'payments'])
+            'order' => $order->load(['orderItems.product.image','orderItems.product.category','orderItems.review','user','address', 'payments'])
         ]);
     }
 
