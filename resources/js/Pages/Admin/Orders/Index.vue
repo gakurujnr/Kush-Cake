@@ -2,6 +2,14 @@
 
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import OrdersTableComponent from "@/Components/Admin/Orders/OrdersTableComponent.vue";
+import type {Order} from "@/Types/types";
+
+defineProps({
+    orders: {
+        type: Array as () => Order[],
+        required: true
+    }
+})
 </script>
 
 <template>
@@ -15,7 +23,7 @@ import OrdersTableComponent from "@/Components/Admin/Orders/OrdersTableComponent
 <!--                    New Order-->
 <!--                </button>-->
             </div>
-            <OrdersTableComponent/>
+            <OrdersTableComponent :orders="orders"/>
         </div>
     </AdminLayout>
 </template>
