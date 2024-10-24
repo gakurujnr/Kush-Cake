@@ -32,12 +32,12 @@ const closeModal = () => {
 const form = useForm({
     review_id: '',
 })
-const deleteReview = (review_id:number) => {
+const deleteReview = (review_id: number) => {
     form.transform((data) => ({
         ...data,
         review_id: review_id
-    })).delete(route('admin.products.review.delete'),{
-        onSuccess:()=>{
+    })).delete(route('admin.products.review.delete'), {
+        onSuccess: () => {
             emit('close')
         }
     })
@@ -57,38 +57,38 @@ const deleteReview = (review_id:number) => {
 
         <template #content>
 
-                <div class="overflow-x-auto">
-                    <table class="min-w-full table-auto">
-                        <thead>
-                        <tr class="bg-gray-2 dark:bg-meta-4">
-                            <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Rating</th>
-                            <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Comments</th>
-                            <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Actions
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(review, key) in product.reviews" :key="key"
-                            :class="`${key === product.reviews.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'}`">
-                            <td class="p-2.5 xl:p-5">
-                                <p class="text-black dark:text-white">{{ review.rating }}</p>
-                            </td>
-                            <td class="p-2.5 text-center xl:p-5">
-                                <p class="text-black dark:text-white">{{ review.comment }}</p>
-                            </td>
-                            <td class="p-2.5 text-center xl:p-5">
-                                <DangerButton @click="deleteReview(review.id)">Delete</DangerButton>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                    <tr class="bg-gray-2 dark:bg-meta-4">
+                        <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Rating</th>
+                        <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Comments</th>
+                        <th class="p-2.5 text-center text-sm font-medium uppercase xsm:text-base xl:p-5">Actions
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(review, key) in product.reviews" :key="key"
+                        :class="`${key === product.reviews.length - 1 ? '' : 'border-b border-stroke dark:border-strokedark'}`">
+                        <td class="p-2.5 xl:p-5">
+                            <p class="text-black dark:text-white">{{ review.rating }}</p>
+                        </td>
+                        <td class="p-2.5 text-center xl:p-5">
+                            <p class="text-black dark:text-white">{{ review.comment }}</p>
+                        </td>
+                        <td class="p-2.5 text-center xl:p-5">
+                            <DangerButton @click="deleteReview(review.id)">Delete</DangerButton>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
         </template>
         <template #footer>
-                    <SecondaryButton @click="closeModal">
-                        Close
-                    </SecondaryButton>
+            <SecondaryButton @click="closeModal">
+                Close
+            </SecondaryButton>
 
         </template>
     </DialogModal>
