@@ -16,4 +16,11 @@ class OrderController extends Controller
             'orders' => $order
         ]);
     }
+
+    public function show(Order $order)
+    {
+        return Inertia::render('Admin/Orders/Show',[
+            'order' => $order->load(['orderItems.product.image','orderItems.product.category','user','address'])
+        ]);
+    }
 }

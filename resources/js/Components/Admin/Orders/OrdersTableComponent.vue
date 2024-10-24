@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {Order} from "@/Types/types";
 import {useDateFormat} from "@vueuse/core";
-
+import {Link} from "@inertiajs/vue3";
 defineProps({
     orders: {
         type: Array as () => Order[],
@@ -67,7 +67,7 @@ const statusVariant = (status:string)=>{
             <p class="text-black dark:text-white">{{ useDateFormat(order.created_at,'Do MMMM YYYY HH:mm:ss') }}</p>
           </td>
           <td class="p-2.5 text-center xl:p-5">
-            <button class="bg-primary text-white text-xs px-3 py-1 rounded-md">View Details</button>
+            <Link :href="route('admin.orders.show',order.id)" class="bg-primary text-white text-xs px-3 py-1 rounded-md">View Details</Link>
           </td>
         </tr>
       </tbody>
