@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->
         Route::post('/store', [ProductController::class,'store'])->name('store');
         Route::put('/update/{product}', [ProductController::class,'update'])->name('update');
         Route::post('/images/store', [ProductController::class,'storeImage'])->name('images.store');
+        Route::delete('/review/delete', [ProductController::class,'deleteReview'])->name('review.delete');
     });
     //group customization routes
     Route::prefix('customization')->as('customization.')->group(function () {
