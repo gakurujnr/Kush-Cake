@@ -6,6 +6,7 @@ import axios from "axios";
 import {onMounted, ref} from "vue";
 import {Link} from "@inertiajs/vue3";
 import ClientLayout from "@/Layouts/ClientLayout.vue";
+import { toast, type ToastOptions } from 'vue3-toastify';
 
 defineProps({
     products: {
@@ -19,6 +20,10 @@ const addToCart = (productId: number) => {
         preserveScroll: (page) => page.props.someProp === 'value',
         onSuccess: () => {
             getCartCount()
+            toast.success("Item Added to Cart", {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+            } as ToastOptions);
         }
     })
 }
@@ -31,6 +36,10 @@ const getCartCount = () => {
 }
 onMounted(() => {
     getCartCount()
+  //    toast("Wow so easy !", {
+  //   autoClose: 1000,
+  //   position: toast.POSITION.BOTTOM_RIGHT,
+  // } as ToastOptions);
 })
 </script>
 
