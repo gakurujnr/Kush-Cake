@@ -11,6 +11,7 @@ import TextInput from "@/Components/TextInput.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import SelectInput from "@/Components/SelectInput.vue";
 import type {OrderItem} from "@/Types/types";
+import { toast, type ToastOptions } from 'vue3-toastify';
 
 const emit = defineEmits(['close']);
 
@@ -49,6 +50,10 @@ const submit = () => {
         onSuccess: () => {
             form.reset()
             closeModal()
+            toast.success("Review Added Successfully", {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+            } as ToastOptions);
         },
     });
 };
