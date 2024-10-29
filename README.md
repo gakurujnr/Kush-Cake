@@ -1,66 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Here's a README file for setting up a Laravel project with Inertia.js:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+# Laravel Inertia.js Setup Guide
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This guide provides step-by-step instructions on setting up a Laravel project with Inertia.js on your machine.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Before you begin, make sure you have the following installed on your machine:
 
-## Learning Laravel
+- **PHP (>= 8.0)**: Laravel requires PHP version 8.0 or higher. You can [download it here](https://www.php.net/downloads).
+- **Composer**: A dependency manager for PHP, which is required to install Laravel and other packages. Install it from [Composer's official website](https://getcomposer.org/).
+- **Node.js & npm**: Required to manage front-end dependencies. Download from [Node.js](https://nodejs.org/).
+- **Laravel**: The PHP framework for web artisans. Install it using Composer after setting up the project.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Installation Steps
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clone the Project Repository
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Clone the Laravel project repository or create a new Laravel project if starting from scratch:
 
-## Laravel Sponsors
+```bash
+# Clone an existing project
+git clone https://github.com/DavidzMwangi/kushcake.git
+cd kushcake
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+### 2. Install PHP Dependencies
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Run the following command to install all PHP dependencies defined in `composer.json`:
 
-## Contributing
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Install Node.js Dependencies
 
-## Code of Conduct
+Inertia.js requires some JavaScript libraries, which are managed through npm. Install all JavaScript dependencies defined in `package.json`:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+npm install
+```
 
-## Security Vulnerabilities
+### 4. Configure the Environment
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Copy the `.env.example` file to `.env` and configure your environment settings:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Update the database and other configuration settings in the `.env` file as needed.
+
+
+## Running the Application in Development Mode
+
+To run the application in development mode, you need to serve the back-end with PHP and compile front-end assets using npm.
+
+1. **Serve the Laravel Application**
+
+   Open a terminal and run:
+
+   ```bash
+   php artisan serve
+   ```
+
+   This command will start the development server and make your Laravel app available at `http://localhost:8000` (or another specified port).
+
+2. **Run npm for Front-End Development**
+
+   In a separate terminal, run:
+
+   ```bash
+   npm run dev
+   ```
+
+   This command will compile your front-end assets in development mode and watch for changes. Make sure this is running whenever you work on front-end code.
+
+## Additional Notes
+
+- If you encounter issues with cross-origin requests (CORS), consider using Laravel’s CORS configuration or the [Laravel CORS package](https://github.com/fruitcake/laravel-cors).
+- When pushing to production, use `php artisan config:cache` and `npm run build` to optimize performance.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-source and available under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+This should cover the basic steps needed for setting up and running a Laravel project with Inertia.js in development mode.
