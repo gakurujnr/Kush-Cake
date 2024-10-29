@@ -84,7 +84,7 @@ onMounted(() => {
                                 <p>Customer Reviews</p>
                                 <ul>
                                     <li v-for="review in product.reviews.slice(0,4)">{{ review.comment }} -
-                                        {{ review.user.name }}
+                                        {{ review.user?.name }}
                                     </li>
                                 </ul>
                             </div>

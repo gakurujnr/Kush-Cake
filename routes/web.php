@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.']
     Route::post('/update-order-item/{orderItem}', [\App\Http\Controllers\OrderController::class,'updateOrderItem'])->name('update_order_item');
     Route::put('/order/{order}', [\App\Http\Controllers\OrderController::class,'update'])->name('update');
     Route::get('/checkout/{order}',[\App\Http\Controllers\OrderController::class,'checkout'])->name('checkout');
+    Route::delete('/order-item/{orderItem}', [\App\Http\Controllers\OrderController::class,'deleteOrderItem'])->name('remove_item');
 });
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'address', 'as'=>'address.'], function () {
