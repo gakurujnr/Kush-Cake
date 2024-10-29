@@ -20,21 +20,25 @@ const openCart = () =>{
         router.visit('/order/cart')
     }
 }
+const logout = () => {
+    router.post(route('logout'));
+};
 </script>
 
 <template>
      <div id="template_div">
           <header>
-                    <a href="#home" class="logo"><img src="@/assets/images/fe/logo.png" alt="Cake Shop Logo"></a>
+                    <a href="/#home" class="logo"><img src="@/assets/images/fe/logo.png" alt="Cake Shop Logo"></a>
                     <nav class="navigate">
                         <ul>
-                            <li><a href="#home">Homepage</a></li>
-                            <li><a href="#product">Gallery</a></li>
-                            <li><a href="#service">Ordering</a></li>
-                            <li><a href="#testimonial">Testimonial</a></li>
-                            <li><a href="#about">About Us</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="/#home">Homepage</a></li>
+                            <li><a href="/#product">Gallery</a></li>
+                            <li><a href="/#service">Ordering</a></li>
+                            <li><a href="/#testimonial">Testimonial</a></li>
+                            <li><a href="/#about">About Us</a></li>
+                            <li><a href="/#contact">Contact</a></li>
                             <li v-if="user"><Link :href="route('order.index')">My Orders </Link></li>
+                            <li v-if="user"><span class="cursor-pointer" @click="logout">Logout</span></li>
                         </ul>
                     </nav>
                     <div id="menu"><i class="fas fa-bars"></i></div>
@@ -42,9 +46,6 @@ const openCart = () =>{
                         <img src="@/assets/images/fe/cart-logo.png" alt="Cart">
                         <span class="item-count">{{cart_count}}</span>
                     </div>
-
-
-
         </header>
 
          <slot></slot>
