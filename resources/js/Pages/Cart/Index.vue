@@ -6,9 +6,10 @@ import {router, useForm} from "@inertiajs/vue3";
 import axios from "axios";
 import {computed, ref} from "vue";
 import AddressModalComponent from "@/Components/Client/Address/AddressModalComponent.vue";
+import {toast, type ToastOptions} from "vue3-toastify";
 
 const props = defineProps({
-    order: {
+    order_prop: {
         type: Object as () => Order,
         required: true
     },
@@ -21,6 +22,7 @@ const props = defineProps({
         required: true
     }
 })
+const order = ref<Order>(props.order_prop);
 const showAddressModal = ref(false);
 
 const closeAddressModal = () => {
@@ -30,7 +32,7 @@ const closeAddressModal = () => {
 const updateQuantity = (orderItemId: number, quantity: number) => {
     axios.post(route('order.update_order_item', orderItemId), {quantity: quantity})
         .then(response => {
-            props.order = response.data.order
+            order.value = response.data.order
         })
         .catch(error => {
             console.log(error)
@@ -39,22 +41,35 @@ const updateQuantity = (orderItemId: number, quantity: number) => {
 const updateOrderAddress = (orderId: number, addressId: number) => {
     axios.put(route('order.update', orderId), {address_id: addressId})
         .then(response => {
-            props.order = response.data.order
+            order.value = response.data.order
         })
         .catch(error => {
             console.log(error)
         })
 }
 const orderTotalCost = computed(() => {
-    return props.order.order_items.reduce((acc, orderItem) => {
+    return order.value.order_items.reduce((acc, orderItem) => {
         return acc + orderItem.price * orderItem.quantity
     }, 0)
 })
 
 const checkoutOrder = () => {
-    axios.get(route('order.checkout', props.order.id))
+    axios.get(route('order.checkout', order.value.id))
         .then(response => {
             router.visit('/')
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+const removeItemFromCart = (orderItemId: number) => {
+    axios.delete(route('order.remove_item', orderItemId))
+        .then(response => {
+            order.value = response.data.order
+            toast.warning("Order Item removed from the Cart", {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+            } as ToastOptions);
         })
         .catch(error => {
             console.log(error)
@@ -110,6 +125,7 @@ const checkoutOrder = () => {
                                             </select>
                                             <div class="absolute right-0 top-0">
                                                 <button type="button"
+                                                        @click="removeItemFromCart(orderItem.id)"
                                                         class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
                                                     <span class="sr-only">Remove</span>
                                                     <XMarkIcon class="h-5 w-5" aria-hidden="true"/>
