@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import {Link, router} from '@inertiajs/vue3'
+import axios from "axios";
 const target = ref(null)
 const dropdownOpen = ref(false)
 
@@ -11,6 +12,17 @@ onClickOutside(target, () => {
 const logout = () => {
     router.post(route('logout'));
 };
+const user = ref(null)
+
+onMounted(async() => {
+     await axios.get(route('user')).then(res=>{
+        user.value = res.data
+     }).catch(err=>{
+            console.log(err)
+     })
+
+    console.log(user.value)
+})
 </script>
 
 <template>
@@ -21,8 +33,8 @@ const logout = () => {
       @click.prevent="dropdownOpen = !dropdownOpen"
     >
       <span class="hidden text-right lg:block">
-        <span class="block text-sm font-medium text-black dark:text-white">Thomas Anree</span>
-        <span class="block text-xs font-medium">UX Designer</span>
+        <span class="block text-sm font-medium text-black dark:text-white">{{user?.name}}</span>
+        <span class="block text-xs font-medium">Admin</span>
       </span>
 
       <span class="h-12 w-12 rounded-full">

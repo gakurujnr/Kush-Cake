@@ -33,6 +33,10 @@ const updateQuantity = (orderItemId: number, quantity: number) => {
     axios.post(route('order.update_order_item', orderItemId), {quantity: quantity})
         .then(response => {
             order.value = response.data.order
+            toast.success("The quantity of the item has been updated successfully", {
+                autoClose: 1000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+            } as ToastOptions);
         })
         .catch(error => {
             console.log(error)
@@ -42,6 +46,10 @@ const updateOrderAddress = (orderId: number, addressId: number) => {
     axios.put(route('order.update', orderId), {address_id: addressId})
         .then(response => {
             order.value = response.data.order
+            toast.success("The Address has been updated successfully", {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+            } as ToastOptions);
         })
         .catch(error => {
             console.log(error)
@@ -57,6 +65,10 @@ const checkoutOrder = () => {
     axios.get(route('order.checkout', order.value.id))
         .then(response => {
             router.visit('/')
+            toast.success("The order has been added successfully", {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+            } as ToastOptions);
         })
         .catch(error => {
             console.log(error)
