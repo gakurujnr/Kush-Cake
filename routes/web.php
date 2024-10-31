@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\CustomizationController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -9,11 +10,16 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\HomePageController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [HomePageController::class,'index'])->name('welcome');
+//get the auth user
+Route::get('/user', function () {
+    return response()->json(auth()->user());
+})->name('user');
 //order routes
 Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.'], function () {
     Route::post('/order', [\App\Http\Controllers\OrderController::class,'store'])->name('store');
@@ -29,19 +35,24 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.']
 });
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'address', 'as'=>'address.'], function () {
-    Route::post('/store', [\App\Http\Controllers\AddressController::class,'store'])->name('store');
+    Route::post('/store', [AddressController::class,'store'])->name('store');
 });
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomePageController::class,'index'])->name('dashboard');
+//    Route::get('/dashboard', function () {
+//        return Inertia::render('Dashboard');
+//    })->name('dashboard');
 });
 //group the admin routes
-Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->as('admin.')->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])
+    ->prefix('admin')
+    ->as('admin.')
+    ->middleware(AdminMiddleware::class)
+    ->group(function () {
     Route::get('/dashboard', [DashboardController::class,'dashboard'])->name('dashboard');
     Route::get('/users', [UsersController::class,'index'])->name('users');
     Route::get('/categories', [CategoriesController::class,'index'])->name('categories');

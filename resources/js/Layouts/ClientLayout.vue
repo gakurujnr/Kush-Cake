@@ -37,6 +37,7 @@ const logout = () => {
                             <li><a href="/#testimonial">Testimonial</a></li>
                             <li><a href="/#about">About Us</a></li>
                             <li><a href="/#contact">Contact</a></li>
+                            <li v-if="!user"><a href="/login">Login</a></li>
                             <li v-if="user"><Link :href="route('order.index')">My Orders </Link></li>
                             <li v-if="user"><span class="cursor-pointer" @click="logout">Logout</span></li>
                         </ul>
