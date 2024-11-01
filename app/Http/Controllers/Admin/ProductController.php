@@ -24,6 +24,15 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $stripeProduct =\Stripe\Product::create([
+            'name' => $request->name,
+            'description'  => $request->description,
+        ]);
+        $stripePrice = \Stripe\Price::create([
+            'unit_amount' => $request->price,
+            'currency' => 'usd',
+            'product' => $stripeProduct->id,
+        ]);
         $product = new Product();
         $product->name = $request->name;
         $product->description = $request->description;
@@ -31,6 +40,8 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         //generate random number for the product that starts with 250
         $product->slug = '250'.rand(1000,99999);
+        $product->stripe_product_id = $stripeProduct->id;
+        $product->stripe_price_id = $stripePrice->id;
         $product->save();
 
         return to_route('admin.products.index');
