@@ -33,7 +33,7 @@ class PaymentController extends Controller
         $payment->save();
 
         $order = Order::query()->find($request->order_id);
-        $order->status = 'shipped';
+        $order->status = 'processing';
         $order->save();
 
         return to_route('admin.payments.index');

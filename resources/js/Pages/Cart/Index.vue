@@ -4,7 +4,7 @@ import ClientLayout from "@/Layouts/ClientLayout.vue";
 import {CheckIcon, ClockIcon, QuestionMarkCircleIcon, XMarkIcon, PlusIcon} from '@heroicons/vue/20/solid'
 import {router, useForm} from "@inertiajs/vue3";
 import axios from "axios";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import AddressModalComponent from "@/Components/Client/Address/AddressModalComponent.vue";
 import {toast, type ToastOptions} from "vue3-toastify";
 
@@ -20,9 +20,27 @@ const props = defineProps({
     addresses: {
         type: Array as () => Address[],
         required: true
+    },
+    stripe_key: {
+        type: String,
+        required: true
     }
 })
 const order = ref<Order>(props.order_prop);
+const stripe = ref(null);
+
+onMounted(() => {
+   if (!window.Stripe) {
+                const stripeJs = document.createElement('script');
+                stripeJs.src = 'https://js.stripe.com/v3/';
+                stripeJs.onload = () => {
+                    stripe.value = Stripe(props.stripe_key); // Use environment variable for key
+                };
+                document.head.appendChild(stripeJs);
+            } else {
+                stripe.value = Stripe(props.stripe_key);
+            }
+})
 const showAddressModal = ref(false);
 
 const closeAddressModal = () => {
@@ -61,19 +79,21 @@ const orderTotalCost = computed(() => {
     }, 0)
 })
 
-const checkoutOrder = () => {
-    axios.get(route('order.complete_checkout', order.value.id))
-        .then(response => {
+const checkoutOrder = async () => {
+   await axios.get(route('order.complete_checkout', order.value.id))
+        .then(async response => {
             // router.visit('/')
             toast.success("The order has been added successfully", {
                 autoClose: 2000,
                 position: toast.POSITION.BOTTOM_RIGHT,
             } as ToastOptions);
-            console.log(response.data.stripe_session_id)
-            // router.get('/checkout/' + response.data.order.id )
-            // route('checkout',response.data.order.id)
+            // Redirect to Stripe Checkout
+            await stripe.value.redirectToCheckout({sessionId: response.data.stripe_session_id});
         }).catch(error => {
-            console.log(error)
+            toast.error("An error occurred when checking out and making the payment via stripe", {
+                autoClose: 3000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+            } as ToastOptions);
         })
 }
 const removeItemFromCart = (orderItemId: number) => {

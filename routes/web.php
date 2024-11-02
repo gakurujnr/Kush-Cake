@@ -36,19 +36,14 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.']
 });
 //stripe payment routes
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/checkout/{order}', [StripeOrderController::class,'checkout'])->name('checkout');
-
+    Route::get('/stripe/success/{order}', [StripeOrderController::class,'successCheckout'])->name('stripe_success');
+    Route::get('/stripe/cancel', [StripeOrderController::class,'cancel'])->name('cancel');
 });
+
 Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'address', 'as'=>'address.'], function () {
     Route::post('/store', [AddressController::class,'store'])->name('store');
 });
-Route::get('/success', function () {
-    return 'Payment successful!';
-})->name('success');
 
-Route::get('/cancel', function () {
-    return 'Payment canceled!';
-})->name('cancel');
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

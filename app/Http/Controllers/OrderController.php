@@ -71,7 +71,8 @@ class OrderController extends Controller
         return Inertia::render('Cart/Index', [
             'order_prop' => $this->cartFullOrder(),
             'cart_count' => $order ? $order->orderItems()->count() : 0,
-            'addresses' => auth()->user()->addresses()->get()
+            'addresses' => auth()->user()->addresses()->get(),
+            'stripe_key' => config('cashier.key')
         ]);
     }
 
@@ -118,7 +119,6 @@ class OrderController extends Controller
          });
          $order->update([
              'total_amount' => $totalAmount,
-             'status' => 'processing'
          ]);*/
 
         $lineItems = [];
@@ -130,7 +130,7 @@ class OrderController extends Controller
         });
         //initalize stripe code here
 //
- // Set Stripe API key using Laravel Cashier's configured key
+        // Set Stripe API key using Laravel Cashier's configured key
         Stripe::setApiKey(config('cashier.secret'));
 
         // Create a Stripe Checkout session
@@ -138,7 +138,10 @@ class OrderController extends Controller
             'payment_method_types' => ['card'],
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => route('success'), // Define your success route
+            'metadata' => [
+                'order_id' => $order->id, // Attach order ID here
+            ],
+            'success_url' => route('stripe_success',['order'=>$order->id]), // Define your success route
             'cancel_url' => route('cancel'),   // Define your cancel route
         ]);
 
