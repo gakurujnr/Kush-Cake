@@ -9,6 +9,8 @@ use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 
 class OrderController extends Controller
 {
@@ -17,38 +19,38 @@ class OrderController extends Controller
         //first check if the user has an active order record
         $product = Product::query()->find($request->product_id);
         $order = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
-       //make this a transaction
-           DB::beginTransaction();
-           if ($order) {
-               $order->update([
-                   'total_amount' => $order->total_amount + $product->price,
-               ]);
-           } else {
-               $order = Order::query()->create([
-                   'user_id' => auth()->id(),
-                   'total_amount' => $product->price,
-               ]);
-           }
-           //add the order item by first checking if the order item exist in which case, add the quantity, else create the order item
-           $orderItem = $order->orderItems()->where('product_id', $product->id)->first();
-           if ($orderItem) {
-               $orderItem->update([
-                   'quantity' => $orderItem->quantity + 1,
-               ]);
-           } else {
-               $order->orderItems()->create([
-                   'product_id' => $product->id,
-                   'quantity' => 1,
-                   'price' => $product->price,
-                   'order_id' => $order->id,
-               ]);
-           }
+        //make this a transaction
+        DB::beginTransaction();
+        if ($order) {
+            $order->update([
+                'total_amount' => $order->total_amount + $product->price,
+            ]);
+        } else {
+            $order = Order::query()->create([
+                'user_id' => auth()->id(),
+                'total_amount' => $product->price,
+            ]);
+        }
+        //add the order item by first checking if the order item exist in which case, add the quantity, else create the order item
+        $orderItem = $order->orderItems()->where('product_id', $product->id)->first();
+        if ($orderItem) {
+            $orderItem->update([
+                'quantity' => $orderItem->quantity + 1,
+            ]);
+        } else {
+            $order->orderItems()->create([
+                'product_id' => $product->id,
+                'quantity' => 1,
+                'price' => $product->price,
+                'order_id' => $order->id,
+            ]);
+        }
 
-           //reduce the product quantity
-           $product->stock = $product->stock - 1;
-           $product->save();
+        //reduce the product quantity
+        $product->stock = $product->stock - 1;
+        $product->save();
 
-           DB::commit();
+        DB::commit();
         return to_route('welcome');
     }
 
@@ -58,7 +60,7 @@ class OrderController extends Controller
         $order = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
         if ($order) {
             return response()->json(['count' => $order->orderItems()->count()]);
-        }else{
+        } else {
             return response()->json(['count' => 0]);
         }
     }
@@ -66,59 +68,84 @@ class OrderController extends Controller
     public function showCart()
     {
         $order = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
-        return Inertia::render('Cart/Index',[
+        return Inertia::render('Cart/Index', [
             'order_prop' => $this->cartFullOrder(),
             'cart_count' => $order ? $order->orderItems()->count() : 0,
-            'addresses'=>auth()->user()->addresses()->get()
+            'addresses' => auth()->user()->addresses()->get()
         ]);
     }
+
     private function cartFullOrder()
     {
         return Order::query()
-                ->where('user_id', auth()->id())
-                ->where('status', 'pending')
-                ->first()
-                ->load(['orderItems.product.image','orderItems.product.category']);
+            ->where('user_id', auth()->id())
+            ->where('status', 'pending')
+            ->first()
+            ->load(['orderItems.product.image', 'orderItems.product.category']);
     }
+
     public function updateOrderItem(OrderItem $orderItem, Request $request)
     {
-        if ($request->has('quantity')){
+        if ($request->has('quantity')) {
             $orderItem->quantity = $request->quantity;
             $orderItem->save();
         }
 
         return response()->json([
             'message' => 'Order item updated successfully',
-            'order'=> $this->cartFullOrder()
+            'order' => $this->cartFullOrder()
         ]);
     }
 
     public function update(Order $order, Request $request)
     {
-        if ($request->has('address_id')){
+        if ($request->has('address_id')) {
             $order->address_id = $request->address_id;
             $order->save();
         }
 
         return response()->json([
             'message' => 'Order updated successfully',
-            'order'=> $this->cartFullOrder()
+            'order' => $this->cartFullOrder()
         ]);
     }
 
     public function checkout(Order $order)
     {
         //compute the total amount of the order based on the order items quantity and price
-        $totalAmount = $order->orderItems->sum(function ($orderItem){
-            return $orderItem->quantity * $orderItem->price;
+        /* $totalAmount = $order->orderItems->sum(function ($orderItem){
+             return $orderItem->quantity * $orderItem->price;
+         });
+         $order->update([
+             'total_amount' => $totalAmount,
+             'status' => 'processing'
+         ]);*/
+
+        $lineItems = [];
+        $order->orderItems()->get()->load('product')->each(function ($orderItem) use (&$lineItems) {
+            $lineItems[] = [
+                'price' => $orderItem->product->stripe_price_id,
+                'quantity' => $orderItem->quantity,
+            ];
         });
-        $order->update([
-            'total_amount' => $totalAmount,
-            'status' => 'processing'
+        //initalize stripe code here
+//
+ // Set Stripe API key using Laravel Cashier's configured key
+        Stripe::setApiKey(config('cashier.secret'));
+
+        // Create a Stripe Checkout session
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => $lineItems,
+            'mode' => 'payment',
+            'success_url' => route('success'), // Define your success route
+            'cancel_url' => route('cancel'),   // Define your cancel route
         ]);
 
         return response()->json([
             'message' => 'Order checked out successfully',
+            'order' => $order,
+            'stripe_session_id' => $session->id
         ]);
     }
 
@@ -126,8 +153,8 @@ class OrderController extends Controller
     {
         $cartOrder = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
 
-        return Inertia::render('Order/Index',[
-            'orders' => Order::query()->where('user_id',auth()->user()->id)->get()->load(['user','address']),
+        return Inertia::render('Order/Index', [
+            'orders' => Order::query()->where('user_id', auth()->user()->id)->get()->load(['user', 'address']),
             'cart_count' => $cartOrder ? $cartOrder->orderItems()->count() : 0
         ]);
     }
@@ -135,8 +162,8 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $cartOrder = Order::query()->where('user_id', auth()->id())->where('status', 'pending')->first();
-        return Inertia::render('Order/Show',[
-            'order' => $order->load(['orderItems.product.image','orderItems.product.category','orderItems.review','user','address', 'payments']),
+        return Inertia::render('Order/Show', [
+            'order' => $order->load(['orderItems.product.image', 'orderItems.product.category', 'orderItems.review', 'user', 'address', 'payments']),
             'cart_count' => $cartOrder ? $cartOrder->orderItems()->count() : 0,
         ]);
     }
@@ -162,7 +189,7 @@ class OrderController extends Controller
         $orderItem->delete();
         return response()->json([
             'message' => 'Order item deleted successfully',
-            'order'=> $this->cartFullOrder()
+            'order' => $this->cartFullOrder()
         ]);
     }
 }

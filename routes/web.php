@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\StripeOrderController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,13 +31,24 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'order', 'as'=>'order.']
     Route::get('/cart', [\App\Http\Controllers\OrderController::class,'showCart'])->name('cart');
     Route::post('/update-order-item/{orderItem}', [\App\Http\Controllers\OrderController::class,'updateOrderItem'])->name('update_order_item');
     Route::put('/order/{order}', [\App\Http\Controllers\OrderController::class,'update'])->name('update');
-    Route::get('/checkout/{order}',[\App\Http\Controllers\OrderController::class,'checkout'])->name('checkout');
+    Route::get('/completeCheckout/{order}',[\App\Http\Controllers\OrderController::class,'checkout'])->name('complete_checkout');
     Route::delete('/order-item/{orderItem}', [\App\Http\Controllers\OrderController::class,'deleteOrderItem'])->name('remove_item');
 });
+//stripe payment routes
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/checkout/{order}', [StripeOrderController::class,'checkout'])->name('checkout');
 
+});
 Route::group(['middleware' => 'auth:sanctum', 'prefix'=>'address', 'as'=>'address.'], function () {
     Route::post('/store', [AddressController::class,'store'])->name('store');
 });
+Route::get('/success', function () {
+    return 'Payment successful!';
+})->name('success');
+
+Route::get('/cancel', function () {
+    return 'Payment canceled!';
+})->name('cancel');
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
