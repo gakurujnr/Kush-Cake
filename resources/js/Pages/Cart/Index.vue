@@ -62,15 +62,17 @@ const orderTotalCost = computed(() => {
 })
 
 const checkoutOrder = () => {
-    axios.get(route('order.checkout', order.value.id))
+    axios.get(route('order.complete_checkout', order.value.id))
         .then(response => {
-            router.visit('/')
+            // router.visit('/')
             toast.success("The order has been added successfully", {
                 autoClose: 2000,
                 position: toast.POSITION.BOTTOM_RIGHT,
             } as ToastOptions);
-        })
-        .catch(error => {
+            console.log(response.data.stripe_session_id)
+            // router.get('/checkout/' + response.data.order.id )
+            // route('checkout',response.data.order.id)
+        }).catch(error => {
             console.log(error)
         })
 }

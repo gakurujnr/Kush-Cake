@@ -9,6 +9,7 @@ use App\Models\ProductImage;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Stripe\Stripe;
 
 class ProductController extends Controller
 {
@@ -24,12 +25,14 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        Stripe::setApiKey(config('cashier.secret'));
+
         $stripeProduct =\Stripe\Product::create([
             'name' => $request->name,
             'description'  => $request->description,
         ]);
         $stripePrice = \Stripe\Price::create([
-            'unit_amount' => $request->price,
+            'unit_amount' => $request->price * 100,
             'currency' => 'usd',
             'product' => $stripeProduct->id,
         ]);
