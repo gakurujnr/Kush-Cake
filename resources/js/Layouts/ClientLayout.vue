@@ -23,6 +23,7 @@ const openCart = () =>{
 const logout = () => {
     router.post(route('logout'));
 };
+const currentYear = new Date().getFullYear();
 </script>
 
 <template>
@@ -108,7 +109,7 @@ const logout = () => {
             </div>
             <div class="copyright">
                 <a href="#home"><i class="fas fa-arrow-circle-up"></i></a>
-                <p>By&copy;Kush Cakes Vision 2025</p>
+                <p>By&copy;Kush Cakes Vision {{currentYear}}</p>
             </div>
         </footer>
      </div>
