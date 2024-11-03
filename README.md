@@ -80,6 +80,25 @@ To run the application in development mode, you need to serve the back-end with 
 
    This command will compile your front-end assets in development mode and watch for changes. Make sure this is running whenever you work on front-end code.
 
+
+3. **To pull changes from Github, run this command**
+
+    ```bash
+    git pull origin main
+    ```
+    
+    This command will pull changes from the main branch of the repository.
+
+
+4. **To push changes to Github, run this command**
+
+    ```bash
+    git add .
+    git commit -m "Your commit message"
+    git push origin main
+    ```
+    
+    This command will push changes to the main branch of the repository.
 ## Additional Notes
 
 - If you encounter issues with cross-origin requests (CORS), consider using Laravel’s CORS configuration or the [Laravel CORS package](https://github.com/fruitcake/laravel-cors).
