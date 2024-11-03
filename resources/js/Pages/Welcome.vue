@@ -3,10 +3,13 @@
 import type {Product} from "@/Types/types";
 import {router, usePage} from '@inertiajs/vue3'
 import axios from "axios";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {Link} from "@inertiajs/vue3";
 import ClientLayout from "@/Layouts/ClientLayout.vue";
 import { toast, type ToastOptions } from 'vue3-toastify';
+const page = usePage();
+
+ const user = computed(() => page.props.auth.user)
 
 defineProps({
     products: {
@@ -19,11 +22,13 @@ const addToCart = (productId: number) => {
     router.post('/order/order', {'product_id': productId}, {
         preserveScroll: (page) => page.props.someProp === 'value',
         onSuccess: () => {
-            getCartCount()
-            toast.success("Item Added to Cart", {
-                autoClose: 2000,
-                position: toast.POSITION.BOTTOM_RIGHT,
-            } as ToastOptions);
+            if (user.value) {
+                getCartCount()
+                toast.success("Item Added to Cart", {
+                    autoClose: 2000,
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                } as ToastOptions);
+            }
         }
     })
 }
