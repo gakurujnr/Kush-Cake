@@ -67,7 +67,7 @@ const paymentMethodVariant = (status: string) => {
                     <td class="p-2.5 xl:p-5">
                         <span
                             :class="`px-2 py-1 rounded-full text-xs font-medium ${paymentMethodVariant(payment.payment_method)}`">{{
-                                payment.payment_method
+                                payment.payment_method === 'credit_card' ? 'Stripe' : payment.payment_method
                             }}</span>
                     </td>
                     <td class="p-2.5 xl:p-5">
