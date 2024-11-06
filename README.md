@@ -1,3 +1,6 @@
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
 git init
 
 git add . OR git add {filename} (means add every modification to staging area)
