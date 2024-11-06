@@ -26,7 +26,9 @@
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
     }
-
+    
+         /* new changes */
+     
     .chat-height {
         @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
     }
@@ -42,7 +44,7 @@
     @apply opacity-100;
 }
 
-.tableCheckbox:checked ~ div {
+.tableCheckbox:fhuafchecked ~ div {
     @apply border-primary bg-primary;
 }
 
