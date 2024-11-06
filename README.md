@@ -1,7 +1,4 @@
 
-1.	Configure 
-a.	  git config --global user.email "you@example.com"
-b.	  git config --global user.name "Your Name"
 2.	Initialize
 a.	git init
 3.	Stage
