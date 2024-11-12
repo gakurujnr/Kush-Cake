@@ -17,7 +17,9 @@ class AddressController extends Controller
         $address->state = $request->state;
         $address->country = $request->country;
         $address->postal_code = $request->postal_code;
+        
         $address->save();
+
         
 
         return to_route('order.cart');
