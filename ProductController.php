@@ -19,7 +19,7 @@ class ProductController extends Controller
 
         return Inertia::render('Admin/Products/Index',[
             'categories' => Category::all(),
-            'products' =>$products
+            'products' =>$products #products
         ]);
     }
 
